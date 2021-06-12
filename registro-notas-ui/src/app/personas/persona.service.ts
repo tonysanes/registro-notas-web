@@ -14,4 +14,8 @@ export class PersonaService {
   cargarAlumnos() {
     return this.http.get<any[]>("http://localhost:8080/api/alumnos", { headers: this.headers });
    }
+
+  cargarAlumno(id: number){
+    return this.http.get<any>("http://localhost:8080/api/alumnos/"+id, { headers: this.headers });
+  }
 }

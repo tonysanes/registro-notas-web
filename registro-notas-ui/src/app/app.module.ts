@@ -5,18 +5,18 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeModule } from './home/home.module';
-import { PersonasComponent } from './personas/personas.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PersonasModule } from './personas/personas.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    PersonasComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HomeModule,
+    PersonasModule,
     RouterModule,
     HttpClientModule 
   ],

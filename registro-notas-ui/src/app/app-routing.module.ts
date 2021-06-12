@@ -15,11 +15,11 @@ const routes: Routes = [
   },
   {
     path:"alumnos",
-    component: PersonasComponent
+    loadChildren:  () => import('./personas/personas.module').then(m => m.PersonasModule)
   },
   {
     path:"profesores",
-    component: PersonasComponent
+    loadChildren:  () => import('./personas/personas.module').then(m => m.PersonasModule)
   }
 
 ];

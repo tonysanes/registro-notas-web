@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PersonaService } from './persona.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { PersonaService } from './persona.service';
 export class PersonasComponent implements OnInit {
 
   alumnos: any[]=[];
-  constructor(private personasService:PersonaService) { }
+  constructor(private personasService:PersonaService, private router: Router) { }
 
   ngOnInit(): void {
     this.cargarAlumnos();
@@ -24,6 +25,7 @@ export class PersonasComponent implements OnInit {
   
   editarAlumno(alumno:any){
       console.log(alumno);
+      this.router.navigate(['alumnos/edit', alumno.id]);
   }
 
 }
