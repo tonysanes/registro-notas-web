@@ -14,14 +14,16 @@ export class EditPersonaComponent implements OnInit {
 
   ngOnInit() {
     this.idPersona = this.route.snapshot.paramMap.get('id');
-    console.log(this.idPersona);
-    this.loadPersonById();
+ 
+    this.loadPersonById( (alumno:any) =>{
+      console.log("Callback Alumno: ", alumno);
+    });
   }
 
-  loadPersonById(){
+  loadPersonById(cb:any){
     this.personaService.cargarAlumno(this.idPersona).subscribe(data=>{
       this.alumno=data;
-      console.log(this.alumno);
+      cb(this.alumno);
     });
   }
 
