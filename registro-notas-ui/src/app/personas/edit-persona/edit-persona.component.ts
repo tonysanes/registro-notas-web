@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { PersonaService } from '../persona.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-edit-persona',
@@ -8,23 +6,20 @@ import { PersonaService } from '../persona.service';
   styleUrls: ['./edit-persona.component.scss']
 })
 export class EditPersonaComponent implements OnInit {
-  idPersona: any;
-  alumno:any;
-  constructor(private route: ActivatedRoute, private personaService: PersonaService) { }
+  //Parametro de entrada alumo object
+  @Input() inputAlumno: any;
+
+  //Parametro de entrada y salida: flag
+  @Input() showEditForm: any;
+  @Output() showEditFormChange = new EventEmitter();
+ 
+  constructor() { }
 
   ngOnInit() {
-    this.idPersona = this.route.snapshot.paramMap.get('id');
- 
-    this.loadPersonById( (alumno:any) =>{
-      console.log("Callback Alumno: ", alumno);
-    });
+    console.log(this.inputAlumno);
   }
-
-  loadPersonById(cb:any){
-    this.personaService.cargarAlumno(this.idPersona).subscribe(data=>{
-      this.alumno=data;
-      cb(this.alumno);
-    });
+  close(){
+    this.showEditForm = false;
+    this.showEditFormChange.emit(this.showEditForm);
   }
-
 }

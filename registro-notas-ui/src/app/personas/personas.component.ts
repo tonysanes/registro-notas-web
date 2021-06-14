@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PersonaService } from './persona.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-personas',
@@ -10,9 +11,15 @@ import { PersonaService } from './persona.service';
 export class PersonasComponent implements OnInit {
 
   alumnos: any[]=[];
+  alumnoSelected: any = {};
+  isSelected: any = false;
+
   constructor(private personasService:PersonaService, private router: Router) { }
 
   ngOnInit(): void {
+    /* $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    }); */
     this.cargarAlumnos();
   }
 
@@ -24,8 +31,10 @@ export class PersonasComponent implements OnInit {
   }
   
   editarAlumno(alumno:any){
+    this.isSelected = true;
       console.log(alumno);
-      this.router.navigate(['alumnos/edit', alumno.id]);
+      //this.router.navigate(['alumnos/edit', alumno.id]);
+      this.alumnoSelected = alumno;
   }
 
 }

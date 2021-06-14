@@ -1,35 +1,40 @@
-<div class="container" >
-    <h4>Personas</h4>
-    <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Nombres</th>
-            <th scope="col">Apellidos</th>
-            <th scope="col">Telefono</th>
-            <th scope="col">Nivel</th>
-            <th scope="col">Grado</th>
-            <th scope="col">Seccion</th>
-            <th scope="col">Direccion</th>
-            <th scope="col">Email</th>
-            <th scope="col">Accion</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let alumno of alumnos">
-            <td>{{alumno.nombres}}</td>
-            <td>{{alumno.apellidos}}</td>
-            <td>{{alumno.telefono}}</td>
-            <td>{{alumno.nivel}}</td>
-            <td>{{alumno.grado}}</td>
-            <td>{{alumno.seccion}}</td>
-            <td>{{alumno.direccion}}</td>
-            <td>{{alumno.email}}</td>
-            <td>
-                <button type="button" (click)="editarAlumno(alumno)" class="btn btn-outline-success btn-sm">Editar</button>
-                <button type="button" class="btn btn-outline-danger btn-sm">Eliminar</button>
-                <i class="bi bi-pencil"></i>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+<div *ngIf= "!isSelected" >
+  <h4>Personas</h4>
+  <table class="table table-hover" >
+      <thead>
+        <tr>
+          <th scope="col">Nombres</th>
+          <th scope="col">Apellidos</th>
+          <th scope="col">Telefono</th>
+          <th scope="col">Nivel</th>
+          <th scope="col">Grado</th>
+          <th scope="col">Seccion</th>
+          <th scope="col">Direccion</th>
+          <th scope="col">Email</th>
+          <th scope="col">Accion</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let alumno of alumnos">
+          <td>{{alumno.nombres}}</td>
+          <td>{{alumno.apellidos}}</td>
+          <td>{{alumno.telefono}}</td>
+          <td>{{alumno.nivel}}</td>
+          <td>{{alumno.grado}}</td>
+          <td>{{alumno.seccion}}</td>
+          <td>{{alumno.direccion}}</td>
+          <td>{{alumno.email}}</td>
+          <td>
+              <button type="button" (click)="editarAlumno(alumno)" class="btn btn-outline-success btn-sm">Editar</button>
+              <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top" >Eliminar</button>
+              <i class="bi bi-pencil" (click)="editarAlumno(alumno)" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 </div>
+  <app-edit-persona 
+    *ngIf= "isSelected" 
+    [inputAlumno] = "alumnoSelected" 
+    [(showEditForm)] = "isSelected"
+  ></app-edit-persona>
