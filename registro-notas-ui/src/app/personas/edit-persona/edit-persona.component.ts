@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-persona',
@@ -12,11 +13,13 @@ export class EditPersonaComponent implements OnInit {
   //Parametro de entrada y salida: flag
   @Input() showEditForm: any;
   @Output() showEditFormChange = new EventEmitter();
- 
+  nombres:any;
   constructor() { }
 
   ngOnInit() {
     console.log(this.inputAlumno);
+    this.nombres = new FormControl(this.inputAlumno.nombres);
+    console.log(this.nombres);
   }
   close(){
     this.showEditForm = false;
