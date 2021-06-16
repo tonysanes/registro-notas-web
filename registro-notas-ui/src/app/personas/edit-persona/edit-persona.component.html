@@ -1,47 +1,60 @@
 <p>edit-persona works!</p>
-<div>
-    <!--input text-->
-    <div class="mb-3">
-        <input formControl="nombres.value" type="text" class="form-control" id="nombres" placeholder="Nombres">
-    </div>
-    <div class="mb-3">
-        <input type="text" class="form-control" id="apellidos" placeholder="Apellidos">
-    </div>
-    <div class="mb-3">
-        <input type="email" class="form-control" id="email" placeholder="Email addres">
-    </div>
-    <div class="mb-3">
-        <input type="text" class="form-control" id="telefono" placeholder="Numero Telefono">
-    </div>
+<form [formGroup]="personasForm">
+    <div>
+        <!--input text-->
+        <div class="mb-3">
+            <input formControlName="nombres" type="text" class="form-control" id="nombres" placeholder="Nombres">
+        </div>
+        <div class="mb-3">
+            <input formControlName="apellidos" type="text" class="form-control" id="apellidos" placeholder="Apellidos">
+        </div>
+        <div class="mb-3">
+            <input formControlName="email" type="email" class="form-control" id="email" placeholder="Email addres">
+        </div>
+        <div class="mb-3">
+            <input formControlName="telefono" type="text" class="form-control" id="telefono" placeholder="Numero Telefono">
+        </div>
+    
+        <!--selects-->
+        <div class="mb-3">
+            <select class="form-select" formControlName="nivel">
+                <option selected>Selecionar Nivel</option>
+                <option value="INICIAL">Inicial</option>
+                <option value="PRIMARIA">Primaria</option>
+                <option value="SECUNDARIA">Secundaria</option>
+              </select>
+        </div>
+        <div class="mb-3">
+            <select class="form-select" formControlName="grado">
+                <option selected>Selecionar Grado</option>
+                <option value="3 AÑOS">3 años</option>
+                <option value="4 AÑOS">4 años</option>
+                <option value="5 AÑOS">5 años</option>
+                <option value="PRIMERO">Primero</option>
+                <option value="SECUNDO">Segundo</option>
+                <option value="TERCERO">Tercero</option>
+                <option value="CUARTO">Cuarto</option>
+                <option value="QUINTO">Quinto</option>
+                <option value="SEXTO">Sexto</option>
+              </select>
+        </div>
+        <div class="mb-3">
+            <select class="form-select" formControlName="seccion">
+                <option selected>Selecionar Seccion</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+              </select>
+        </div>
+        <!--text area-->
+        <div class="mb-3">
+            <textarea formControlName="direccion" class="form-control" id="direccion" rows="3" placeholder="Direccion"></textarea>
+        </div>
 
-    <!--selects-->
-    <div class="mb-3">
-        <select class="form-select">
-            <option selected>Selecionar Nivel</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
+        <!--calendar tipos de fecha-->
+        <div class="mb-3">
+            <input formControlName="fechaNacimiento" type="date" class="form-control" id="fechaNacimiento" placeholder="Fecha Nacimiento">
+        </div>
     </div>
-    <div class="mb-3">
-        <select class="form-select">
-            <option selected>Selecionar Grado</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-    </div>
-    <div class="mb-3">
-        <select class="form-select" aria-label="Default select example">
-            <option selected>Selecionar Seccion</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-    </div>
-    <!--text area-->
-    <div class="mb-3">
-        <textarea class="form-control" id="direccion" rows="3" placeholder="Direccion"></textarea>
-    </div>
-</div>
+</form>
 <button (click)="close()">Cancel</button>
