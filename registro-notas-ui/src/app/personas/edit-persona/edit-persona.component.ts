@@ -1,6 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PersonaService } from '../persona.service';
+import * as moment from 'moment';
+import { Persona } from '../persona';
 
 @Component({
   selector: 'app-edit-persona',
@@ -9,13 +12,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class EditPersonaComponent implements OnInit {
   //Parametro de entrada alumo object
-  @Input() inputAlumno: any;
+  @Input() inputAlumno: Persona;
+  @Output() refreshPersonas = new EventEmitter();
 
   //Parametro de entrada y salida: flag
   @Input() showEditForm: any;
   @Output() showEditFormChange = new EventEmitter();
   personasForm: FormGroup;
-  constructor( public fb: FormBuilder, public datepipe: DatePipe) { }
+  constructor( public fb: FormBuilder, public datepipe: DatePipe, private personaService: PersonaService) { }
 
   ngOnInit() {
     console.log(this.inputAlumno);
@@ -47,8 +51,8 @@ export class EditPersonaComponent implements OnInit {
     this.personasForm.controls["grado"].setValue(this.inputAlumno.grado);
     this.personasForm.controls["seccion"].setValue(this.inputAlumno.seccion);
     this.personasForm.controls["direccion"].setValue(this.inputAlumno.direccion);
-    let nacimiento =this.datepipe.transform(this.inputAlumno.fechaNac, 'yyyy-MM-dd');
-    this.personasForm.controls["fechaNacimiento"].setValue(nacimiento);
+    let fechaNac = moment(this.inputAlumno.fechaNac).format('YYYY-MM-DD');
+    this.personasForm.controls["fechaNacimiento"].setValue(fechaNac);
   }
 
   close(){
@@ -56,7 +60,13 @@ export class EditPersonaComponent implements OnInit {
     this.showEditFormChange.emit(this.showEditForm);
   }
 
-  updatePerson(){
-    
+  updatePersona(){
+    let jsonPersona=this.personasForm.value;
+    jsonPersona['fechaNac']= new Date(this.personasForm.controls["fechaNacimiento"].value);
+    jsonPersona['id']=this.inputAlumno.id;
+    this.personaService.editarAlumno(jsonPersona).subscribe(res=>{
+      this.refreshPersonas.emit(true);
+      this.close();
+    });
   }
 }

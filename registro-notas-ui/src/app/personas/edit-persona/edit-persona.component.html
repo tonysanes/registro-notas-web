@@ -1,5 +1,5 @@
 <p>edit-persona works!</p>
-<form [formGroup]="personasForm">
+<form [formGroup]="personasForm" (ngSubmit)="updatePersona()">
     <div>
         <!--input text-->
         <div class="mb-3">
@@ -55,6 +55,10 @@
         <div class="mb-3">
             <input formControlName="fechaNacimiento" type="date" class="form-control" id="fechaNacimiento" placeholder="Fecha Nacimiento">
         </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-outline-success btn-sm">Editar</button> 
+            <button (click)="close()" class="btn btn-outline-danger btn-sm">Cancel</button>
+        </div>
     </div>
 </form>
-<button (click)="close()">Cancel</button>

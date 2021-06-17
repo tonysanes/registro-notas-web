@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PersonaService } from './persona.service';
 import * as $ from 'jquery';
+import { Persona } from './persona';
 
 @Component({
   selector: 'app-personas',
@@ -10,9 +11,9 @@ import * as $ from 'jquery';
 })
 export class PersonasComponent implements OnInit {
 
-  alumnos: any[]=[];
-  alumnoSelected: any = {};
-  isSelected: any = false;
+  alumnos: Persona[]=[];
+  alumnoSelected: Persona;
+  isSelected: boolean = false;
 
   constructor(private personasService:PersonaService, private router: Router) { }
 
@@ -30,11 +31,17 @@ export class PersonasComponent implements OnInit {
      });
   }
   
-  editarAlumno(alumno:any){
+  editarAlumno(alumno:Persona){
     this.isSelected = true;
       console.log(alumno);
       //this.router.navigate(['alumnos/edit', alumno.id]);
       this.alumnoSelected = alumno;
+  }
+  eliminarAlumno(id: number){
+    console.log("eliminando Alumno", id);
+  }
+  reload() { 
+    location.reload();       
   }
 
 }
