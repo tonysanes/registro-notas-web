@@ -43,6 +43,9 @@ export class PersonasComponent implements OnInit {
   reload() { 
     location.reload();       
   }
+  goToHome(){
+    this.router.navigate(['home']);
+  }
 
 }
 
