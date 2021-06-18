@@ -6,7 +6,8 @@
     <div class="container-fluid">
       <a class="navbar-brand" (click)="goToHome()" href="#">Home</a>
       <div>
-        <i class="bi bi-person-plus" style="margin-right: 5px;" (click)="addPersona()" data-bs-toggle="tooltip" data-bs-placement="top" title="Register"></i>
+        <i class="bi bi-download" style="margin-right: 10px;" (click)="exportCsv()" data-bs-toggle="tooltip" data-bs-placement="top" title="Export"></i>
+        <i class="bi bi-person-plus" style="margin-right: 10px;" (click)="addPersona()" data-bs-toggle="tooltip" data-bs-placement="top" title="Register"></i>
         <i class="bi bi-arrow-clockwise" (click)="reload()" data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"></i>
       </div>
     </div>
@@ -15,14 +16,9 @@
   <table class="table table-hover" >
       <thead>
         <tr>
-          <th scope="col">Nombres</th>
-          <th scope="col">Apellidos</th>
-          <th scope="col">Telefono</th>
-          <th scope="col">Nivel</th>
-          <th scope="col">Grado</th>
-          <th scope="col">Seccion</th>
-          <th scope="col">Direccion</th>
-          <th scope="col">Email</th>
+          <th *ngFor="let col of columns">
+            {{col}}
+          </th>
           <th scope="col">Accion</th>
         </tr>
       </thead>

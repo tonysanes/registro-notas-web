@@ -4,6 +4,7 @@ import { PersonaService } from './persona.service';
 import * as $ from 'jquery';
 import { Persona } from './persona';
 import { ModalDismissReasons, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { CsvDataService } from './csv-data.service';
 
 @Component({
   selector: 'app-personas',
@@ -12,6 +13,7 @@ import { ModalDismissReasons, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-
 })
 export class PersonasComponent implements OnInit {
 
+  columns: string[] = ["Nombres", "Apellidos", "Telefono", "Nivel", "Grado", "Seccion", "Direccion", "Email"];
   alumnos: Persona[]=[];
   alumnoSelected: Persona;
   isSelected: boolean = false;
@@ -19,7 +21,7 @@ export class PersonasComponent implements OnInit {
   action: string;
   confirmationQuestion: string;
 
-  constructor(private personasService:PersonaService, private router: Router, config: NgbModalConfig, private modalService: NgbModal) {
+  constructor(private personasService:PersonaService, private router: Router, config: NgbModalConfig, private modalService: NgbModal, private csvService: CsvDataService) {
     config.backdrop = 'static';
     config.keyboard = false;
    }
@@ -84,6 +86,11 @@ export class PersonasComponent implements OnInit {
     } else {
       return  `with: ${reason}`;
     }
+  }
+
+  exportCsv(){
+    console.log("Export csv");
+    this.csvService.exportToCsv('alumnos.csv', this.alumnos);
   }
 
 }
