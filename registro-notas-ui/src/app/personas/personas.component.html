@@ -5,8 +5,10 @@
   <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" (click)="goToHome()" href="#">Home</a>
-      <i class="bi bi-person-plus" (click)="addPersona()" data-bs-toggle="tooltip" data-bs-placement="top" title="Register"></i>
-      <i class="bi bi-arrow-clockwise" (click)="reload()" data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"></i>
+      <div>
+        <i class="bi bi-person-plus" style="margin-right: 5px;" (click)="addPersona()" data-bs-toggle="tooltip" data-bs-placement="top" title="Register"></i>
+        <i class="bi bi-arrow-clockwise" (click)="reload()" data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"></i>
+      </div>
     </div>
   </nav>
 
@@ -34,12 +36,12 @@
           <td>{{alumno.seccion}}</td>
           <td>{{alumno.direccion}}</td>
           <td>{{alumno.email}}</td>
-          <td>
+          <td style="text-align: end;">
             <span style="margin-right: 5px;">
               <i class="bi bi-pencil" (click)="editarAlumno(alumno)" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"></i>
             </span>
             <span>
-              <i class="bi bi-trash" (click)="deletedModal(content, alumno.id)" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar"></i>
+              <i class="bi bi-trash" (click)="deletedModal(content, alumno)" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar"></i>
             </span>
           </td>
         </tr>
@@ -63,11 +65,13 @@
       </button>
     </div>
     <div class="modal-body">
-      <p>¿ Estas seguro eliminar el Alumno ?</p>
+      <p>{{confirmationQuestion}}</p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="c('Close')">Cancelar</button>
-      <button type="button" class="btn btn-outline-dark" (click)="c('Save')">Aceptar</button>
+      <div>
+        <button type="button" class="btn btn-outline-danger btn-sm" (click)="c('Close')">Cancelar</button>
+        <button type="button" class="btn btn-outline-success btn-sm" (click)="c('Save')">Aceptar</button>
+      </div>
     </div>
   </ng-template>
   

@@ -17,6 +17,7 @@ export class PersonasComponent implements OnInit {
   isSelected: boolean = false;
   closeModal: string;
   action: string;
+  confirmationQuestion: string;
 
   constructor(private personasService:PersonaService, private router: Router, config: NgbModalConfig, private modalService: NgbModal) {
     config.backdrop = 'static';
@@ -38,7 +39,7 @@ export class PersonasComponent implements OnInit {
   }
   
   editarAlumno(alumno:Persona){
-    this.action = "edit";
+    this.action = "Editar";
     this.isSelected = true;
     this.alumnoSelected = alumno;
   }
@@ -57,17 +58,18 @@ export class PersonasComponent implements OnInit {
 
   addPersona(){
     this.isSelected=true;
-    this.action = "create";
+    this.action = "Registrar";
     this.alumnoSelected= {} as Persona;
     console.log("Registrar nuevo Alumno");
   }
 
-  deletedModal(content:any, id: number) {
+  deletedModal(content:any, alumno: Persona) {
+    this.confirmationQuestion = "¿Estas seguro eliminar el Alumno(a) " + alumno.nombres + "?";
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
       this.closeModal = res; //`Closed with: ${res}`;
       console.log(this.closeModal);
       if (this.closeModal=="Save") {
-        this.eliminarAlumno(id);
+        this.eliminarAlumno(alumno.id);
       }
     }, (res) => {
       this.closeModal = `Dismissed ${this.getDismissReason(res)}`;

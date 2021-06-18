@@ -27,7 +27,7 @@ export class EditPersonaComponent implements OnInit {
     console.log(this.inputAlumno);
     console.log(this.action);
     this.crearFormulario();
-    if (this.action=="edit") {
+    if (this.action=="Editar") {
       this.title="Editar Alumno";
       this.inicializarFormulario();
     }else{
@@ -71,7 +71,7 @@ export class EditPersonaComponent implements OnInit {
   updatePersona(){
     let jsonPersona=this.personasForm.value;
     jsonPersona['fechaNac']= new Date(this.personasForm.controls["fechaNacimiento"].value);
-    if (this.action=="edit") {
+    if (this.action=="Editar") {
       jsonPersona['id']=this.inputAlumno.id;
       this.personaService.editarAlumno(jsonPersona).subscribe(res=>{
         this.refreshPersonas.emit(true);
