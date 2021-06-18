@@ -8,6 +8,7 @@ import { HomeModule } from './home/home.module';
 import { HttpClientModule } from '@angular/common/http';
 import { PersonasModule } from './personas/personas.module';
 import { NotFoundComponent } from './core/not-found/not-found.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NotFoundComponent } from './core/not-found/not-found.component';
     HomeModule,
     PersonasModule,
     RouterModule,
-    HttpClientModule 
+    HttpClientModule,
+    NgbModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

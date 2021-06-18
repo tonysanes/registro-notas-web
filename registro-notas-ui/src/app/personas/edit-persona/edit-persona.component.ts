@@ -13,18 +13,26 @@ import { Persona } from '../persona';
 export class EditPersonaComponent implements OnInit {
   //Parametro de entrada alumo object
   @Input() inputAlumno: Persona;
+  @Input() action: string;
   @Output() refreshPersonas = new EventEmitter();
 
   //Parametro de entrada y salida: flag
   @Input() showEditForm: any;
   @Output() showEditFormChange = new EventEmitter();
   personasForm: FormGroup;
+  title: string;
   constructor( public fb: FormBuilder, public datepipe: DatePipe, private personaService: PersonaService) { }
 
   ngOnInit() {
     console.log(this.inputAlumno);
+    console.log(this.action);
     this.crearFormulario();
-    this.inicializarFormulario();
+    if (this.action=="edit") {
+      this.title="Editar Alumno";
+      this.inicializarFormulario();
+    }else{
+      this.title="Registrar Alumno";
+    }
 
   }
 
@@ -63,10 +71,17 @@ export class EditPersonaComponent implements OnInit {
   updatePersona(){
     let jsonPersona=this.personasForm.value;
     jsonPersona['fechaNac']= new Date(this.personasForm.controls["fechaNacimiento"].value);
-    jsonPersona['id']=this.inputAlumno.id;
-    this.personaService.editarAlumno(jsonPersona).subscribe(res=>{
-      this.refreshPersonas.emit(true);
-      this.close();
-    });
+    if (this.action=="edit") {
+      jsonPersona['id']=this.inputAlumno.id;
+      this.personaService.editarAlumno(jsonPersona).subscribe(res=>{
+        this.refreshPersonas.emit(true);
+        this.close();
+      });
+    }else{
+      this.personaService.registrarAlumno(jsonPersona).subscribe(res=>{
+        this.refreshPersonas.emit(true);
+        this.close();
+      });
+    }
   }
 }
