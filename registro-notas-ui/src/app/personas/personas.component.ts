@@ -21,23 +21,33 @@ export class PersonasComponent implements OnInit {
   action: string;
   confirmationQuestion: string;
 
+  //Pagination
+  page = 1;
+  pageSize = 4;
+  collectionSize = 0;
+  alumnos2: Persona[]=[];
+
   constructor(private personasService:PersonaService, private router: Router, config: NgbModalConfig, private modalService: NgbModal, private csvService: CsvDataService) {
     config.backdrop = 'static';
     config.keyboard = false;
    }
 
   ngOnInit(): void {
-    /* $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-    }); */
     this.cargarAlumnos();
+    setTimeout(() => {
+      this.refreshAlumnos();
+    }, 2000);
   }
 
   cargarAlumnos(){
     this.personasService.cargarAlumnos().subscribe(data=>{
       this.alumnos=data;
-      console.log(this.alumnos);
+      this.collectionSize = this.alumnos.length;
      });
+  }
+
+  refreshAlumnos() {
+    this.alumnos2 = this.alumnos.map((alumno, i) => ({id: i+1, ...alumno})).slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize);
   }
   
   editarAlumno(alumno:Persona){
@@ -47,7 +57,6 @@ export class PersonasComponent implements OnInit {
   }
   eliminarAlumno(id: number){
     this.personasService.eliminarAlumno(id).subscribe(data=>{
-      console.log("Se elimino correctamente");
       this.reload();
     });
   }
@@ -62,16 +71,15 @@ export class PersonasComponent implements OnInit {
     this.isSelected=true;
     this.action = "Registrar";
     this.alumnoSelected= {} as Persona;
-    console.log("Registrar nuevo Alumno");
   }
 
   deletedModal(content:any, alumno: Persona) {
     this.confirmationQuestion = "¿Estas seguro eliminar el Alumno(a) " + alumno.nombres + "?";
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
-      this.closeModal = res; //`Closed with: ${res}`;
+      this.closeModal = res;
       console.log(this.closeModal);
       if (this.closeModal=="Save") {
-        this.eliminarAlumno(alumno.id);
+        this.eliminarAlumno(alumno.id as number);
       }
     }, (res) => {
       this.closeModal = `Dismissed ${this.getDismissReason(res)}`;

@@ -4,6 +4,7 @@ import { EditPersonaComponent } from './edit-persona/edit-persona.component';
 import { PersonasRoutingModule } from './personas-routing.module';
 import { PersonasComponent } from './personas.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     PersonasRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule
   ],
   providers: [
     DatePipe
