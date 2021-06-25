@@ -21,6 +21,8 @@ export class EditPersonaComponent implements OnInit {
   @Output() showEditFormChange = new EventEmitter();
   personasForm: FormGroup;
   title: string;
+  submitted = false;
+  
   constructor( public fb: FormBuilder, public datepipe: DatePipe, private personaService: PersonaService) { }
 
   ngOnInit() {
@@ -38,10 +40,10 @@ export class EditPersonaComponent implements OnInit {
 
   crearFormulario(){
     this.personasForm = this.fb.group({
-      nombres: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      email: ['', Validators.required],
-      telefono: ['', Validators.required],
+      nombres: ['', [Validators.required, Validators.minLength(3)]],
+      apellidos: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      telefono: ['', [Validators.required, Validators.minLength(6)]],
       nivel: ['', Validators.required],
       grado: ['', Validators.required],
       seccion: ['', Validators.required],
@@ -69,6 +71,10 @@ export class EditPersonaComponent implements OnInit {
   }
 
   updatePersona(){
+    this.submitted = true;
+    if (this.personasForm.invalid) {
+      return;
+    }
     let jsonPersona=this.personasForm.value;
     jsonPersona['fechaNac']= new Date(this.personasForm.controls["fechaNacimiento"].value);
     if (this.action=="Editar") {

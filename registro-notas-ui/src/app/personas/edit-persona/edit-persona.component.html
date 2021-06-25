@@ -3,16 +3,36 @@
     <div>
         <!--input text-->
         <div class="mb-3">
-            <input formControlName="nombres" type="text" class="form-control" id="nombres" placeholder="Nombres">
+            <input formControlName="nombres" type="text" class="form-control" id="nombres" placeholder="Nombres"
+                    [ngClass]="{ 'is-invalid': submitted && personasForm.controls.nombres.errors }">
+            <div *ngIf="submitted && personasForm.controls.nombres.errors" class="invalid-feedback">
+                <div *ngIf="personasForm.controls.nombres.errors.required">El Nombre es requerido</div>
+                <div *ngIf="personasForm.controls.nombres.errors.minlength">El Nombre puede ser menos de 3 caracteres</div>
+            </div>
         </div>
         <div class="mb-3">
-            <input formControlName="apellidos" type="text" class="form-control" id="apellidos" placeholder="Apellidos">
+            <input formControlName="apellidos" type="text" class="form-control" id="apellidos" placeholder="Apellidos"
+                    [ngClass]="{ 'is-invalid': submitted && personasForm.controls.apellidos.errors }">
+            <div *ngIf="submitted && personasForm.controls.apellidos.errors" class="invalid-feedback">
+                <div *ngIf="personasForm.controls.apellidos.errors.required">El Apellido es requerido</div>
+                <div *ngIf="personasForm.controls.apellidos.errors.minlength">El apellido puede ser menos de 3 caracteres</div>
+            </div>
         </div>
         <div class="mb-3">
-            <input formControlName="email" type="email" class="form-control" id="email" placeholder="Email addres">
+            <input formControlName="email" type="email" class="form-control" id="email" placeholder="Email addres"
+                    [ngClass]="{ 'is-invalid': submitted && personasForm.controls.email.errors }">
+            <div *ngIf="submitted && personasForm.controls.email.errors" class="invalid-feedback">
+                <div *ngIf="personasForm.controls.email.errors.required">El email es requerido</div>
+                <div *ngIf="personasForm.controls.email.errors.email">No es un email valido</div>
+            </div>
         </div>
         <div class="mb-3">
-            <input formControlName="telefono" type="text" class="form-control" id="telefono" placeholder="Numero Telefono">
+            <input formControlName="telefono" type="text" class="form-control" id="telefono" placeholder="Numero Telefono"
+                    [ngClass]="{ 'is-invalid': submitted && personasForm.controls.telefono.errors }">
+            <div *ngIf="submitted && personasForm.controls.telefono.errors" class="invalid-feedback">
+                <div *ngIf="personasForm.controls.telefono.errors.required">El Numero de Telefono es requerido</div>
+                <div *ngIf="personasForm.controls.telefono.errors.minlength">El Numero de Telefono no puede ser menos de 6 digitos</div>
+            </div>
         </div>
     
         <!--selects-->
@@ -48,15 +68,24 @@
         </div>
         <!--text area-->
         <div class="mb-3">
-            <textarea formControlName="direccion" class="form-control" id="direccion" rows="3" placeholder="Direccion"></textarea>
+            <textarea formControlName="direccion" class="form-control" id="direccion" rows="3" placeholder="Direccion"
+                    [ngClass]="{ 'is-invalid': submitted && personasForm.controls.direccion.errors }"></textarea>
+            <div *ngIf="submitted && personasForm.controls.direccion.errors" class="invalid-feedback">
+                <div *ngIf="personasForm.controls.direccion.errors.required">La Direccion es requerido</div>
+            </div>
         </div>
 
         <!--calendar tipos de fecha-->
         <div class="mb-3">
-            <input formControlName="fechaNacimiento" type="date" class="form-control" id="fechaNacimiento" placeholder="Fecha Nacimiento">
+            <input formControlName="fechaNacimiento" type="date" class="form-control" id="fechaNacimiento" placeholder="Fecha Nacimiento"
+                    [ngClass]="{ 'is-invalid': submitted && personasForm.controls.fechaNacimiento.errors }">
+            <div *ngIf="submitted && personasForm.controls.fechaNacimiento.errors" class="invalid-feedback">
+                <div *ngIf="personasForm.controls.fechaNacimiento.errors.required">La Fecha Nacimiento es requerida</div>
+            </div>
         </div>
 
         <div class="mb-3">
+            <!-- <button type="submit" class="btn btn-outline-success btn-sm" [disabled]="!personasForm.valid">{{action}}</button>  -->
             <button type="submit" class="btn btn-outline-success btn-sm">{{action}}</button> 
             <button (click)="close()" class="btn btn-outline-danger btn-sm">Cancel</button>
         </div>
