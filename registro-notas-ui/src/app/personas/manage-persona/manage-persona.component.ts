@@ -6,11 +6,11 @@ import * as moment from 'moment';
 import { Persona } from '../persona';
 
 @Component({
-  selector: 'app-edit-persona',
-  templateUrl: './edit-persona.component.html',
-  styleUrls: ['./edit-persona.component.scss']
+  selector: 'app-manage-persona',
+  templateUrl: './manage-persona.component.html',
+  styleUrls: ['./manage-persona.component.scss']
 })
-export class EditPersonaComponent implements OnInit {
+export class ManagePersonaComponent implements OnInit {
   //Parametro de entrada alumo object
   @Input() inputAlumno: Persona;
   @Input() action: string;

@@ -7,21 +7,22 @@ import { AppComponent } from './app.component';
 import { HomeModule } from './home/home.module';
 import { HttpClientModule } from '@angular/common/http';
 import { PersonasModule } from './personas/personas.module';
-import { NotFoundComponent } from './core/not-found/not-found.component';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NotFoundComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    CoreModule,
     HomeModule,
     PersonasModule,
     RouterModule,
     HttpClientModule
   ],
+  exports:[],
   providers: [],
   bootstrap: [AppComponent]
 })

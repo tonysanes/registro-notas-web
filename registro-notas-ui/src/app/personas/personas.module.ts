@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { EditPersonaComponent } from './edit-persona/edit-persona.component';
+import { ManagePersonaComponent } from './manage-persona/manage-persona.component';
 import { PersonasRoutingModule } from './personas-routing.module';
 import { PersonasComponent } from './personas.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
   declarations: [
     PersonasComponent,
-    EditPersonaComponent
+    ManagePersonaComponent
   ],
   imports: [
     CommonModule,
+    CoreModule,
     PersonasRoutingModule,
     FormsModule,
     ReactiveFormsModule,

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PersonaService } from './persona.service';
-import * as $ from 'jquery';
 import { Persona } from './persona';
 import { ModalDismissReasons, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CsvDataService } from './csv-data.service';
@@ -20,6 +19,7 @@ export class PersonasComponent implements OnInit {
   closeModal: string;
   action: string;
   confirmationQuestion: string;
+  isLoading: boolean = false;
 
   //Pagination
   page = 1;
@@ -33,9 +33,11 @@ export class PersonasComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.cargarAlumnos();
     setTimeout(() => {
       this.refreshAlumnos();
+      this.isLoading = false;
     }, 2000);
   }
 
@@ -43,6 +45,7 @@ export class PersonasComponent implements OnInit {
     this.personasService.cargarAlumnos().subscribe(data=>{
       this.alumnos=data;
       this.collectionSize = this.alumnos.length;
+      
      });
   }
 

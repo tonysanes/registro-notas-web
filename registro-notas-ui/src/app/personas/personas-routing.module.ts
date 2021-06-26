@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PersonasModule } from './personas.module';
 import { RouterModule, Routes } from '@angular/router';
 import { PersonasComponent } from './personas.component';
-import { EditPersonaComponent } from './edit-persona/edit-persona.component';
+import { ManagePersonaComponent } from './manage-persona/manage-persona.component';
 
 const routes: Routes = [
   {
@@ -12,7 +10,7 @@ const routes: Routes = [
   },
   {
     path:"edit",
-    component: EditPersonaComponent
+    component: ManagePersonaComponent
   }
 ];
 

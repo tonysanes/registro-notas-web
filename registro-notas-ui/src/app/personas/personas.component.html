@@ -43,27 +43,31 @@
         </tr>
       </tbody>
     </table>
+    <div class="text-center">
+      <app-loader [loader]="isLoading"></app-loader>
+    </div>
 
     <div class="d-flex justify-content-between p-2">
       <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshAlumnos()">
       </ngb-pagination>
     
-      <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshAlumnos()">
+      <select class="form-select w-auto mb-3" [(ngModel)]="pageSize" (ngModelChange)="refreshAlumnos()">
         <option [ngValue]="2">2 filas por pagina</option>
         <option [ngValue]="4">4 filas por pagina</option>
         <option [ngValue]="6">6 filas por pagina</option>
       </select>
+      
     </div>
 
 </div>
-  <app-edit-persona 
+  <app-manage-persona 
     *ngIf= "isSelected"
     [action] = "action"
     [inputAlumno] = "alumnoSelected" 
     [(showEditForm)] = "isSelected"
     (refreshPersonas) = "reload()"
   >
-  </app-edit-persona>
+  </app-manage-persona>
 
   <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header">
