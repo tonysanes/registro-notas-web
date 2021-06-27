@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { PersonaService } from './persona.service';
 import { Persona } from './persona';
-import { ModalDismissReasons, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { CsvDataService } from './csv-data.service';
+import { ConfirmModalComponent } from '../core/confirm-modal/confirm-modal.component';
+import { SortEvent, SortHeaderDirective } from '../core/directives/sort-header.directive';
 
+const compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 @Component({
   selector: 'app-personas',
   templateUrl: './personas.component.html',
@@ -27,6 +30,9 @@ export class PersonasComponent implements OnInit {
   collectionSize = 0;
   alumnos2: Persona[]=[];
 
+
+  @ViewChildren(SortHeaderDirective) headers: QueryList<SortHeaderDirective>;
+
   constructor(private personasService:PersonaService, private router: Router, config: NgbModalConfig, private modalService: NgbModal, private csvService: CsvDataService) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -45,7 +51,6 @@ export class PersonasComponent implements OnInit {
     this.personasService.cargarAlumnos().subscribe(data=>{
       this.alumnos=data;
       this.collectionSize = this.alumnos.length;
-      
      });
   }
 
@@ -76,32 +81,37 @@ export class PersonasComponent implements OnInit {
     this.alumnoSelected= {} as Persona;
   }
 
-  deletedModal(content:any, alumno: Persona) {
-    this.confirmationQuestion = "¿Estas seguro eliminar el Alumno(a) " + alumno.nombres + "?";
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((res) => {
-      this.closeModal = res;
-      console.log(this.closeModal);
-      if (this.closeModal=="Save") {
-        this.eliminarAlumno(alumno.id as number);
-      }
-    }, (res) => {
-      this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
-    });
-  }
-  
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
+  exportCsv(){
+    this.csvService.exportToCsv('alumnos.csv', this.alumnos);
   }
 
-  exportCsv(){
-    console.log("Export csv");
-    this.csvService.exportToCsv('alumnos.csv', this.alumnos);
+  openDeleteModal(alumno: Persona) {
+    const modalRef = this.modalService.open(ConfirmModalComponent);
+    modalRef.componentInstance.message = "¿Estas seguro de eliminar el Alumno(a) " + alumno.nombres + "?";
+    modalRef.componentInstance.action.subscribe((action: string) => {
+      if (action == "save") {
+        this.eliminarAlumno(alumno.id as number);
+      }
+    });
+  }
+
+  onSort({column, direction}: SortEvent) {
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+
+    // sorting countries
+    if (direction === '' || column === '') {
+      this.alumnos2 = this.alumnos;
+    } else {
+      this.alumnos2 = [...this.alumnos].sort((a:any, b:any) => {
+        const res = compare(a[column], b[column]);
+        return direction === 'asc' ? res : -res;
+      });
+    }
   }
 
 }
