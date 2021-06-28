@@ -26,7 +26,7 @@ export class PersonasComponent implements OnInit {
 
   //Pagination
   page = 1;
-  pageSize = 4;
+  pageSize = 10;
   collectionSize = 0;
   alumnos2: Persona[]=[];
 

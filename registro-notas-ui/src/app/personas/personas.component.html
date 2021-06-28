@@ -53,9 +53,10 @@
       </ngb-pagination>
     
       <select class="form-select w-auto mb-3" [(ngModel)]="pageSize" (ngModelChange)="refreshAlumnos()">
-        <option [ngValue]="2">2 filas por pagina</option>
-        <option [ngValue]="4">4 filas por pagina</option>
-        <option [ngValue]="6">6 filas por pagina</option>
+        <option [ngValue]="10">10 filas por pagina</option>
+        <option [ngValue]="25">25 filas por pagina</option>
+        <option [ngValue]="50">50 filas por pagina</option>
+        <option [ngValue]="100">100 filas por pagina</option>
       </select>
       
     </div>
