@@ -22,6 +22,15 @@ export class ManagePersonaComponent implements OnInit {
   personasForm: FormGroup;
   title: string;
   submitted = false;
+
+  niveles: any[]=[
+    { value:"INICIAL", label:"Inicial" },
+    { value:"PRIMARIA", label:"Primaria" },
+    { value:"SECUNDARIA", label:"Secundaria" },
+  ];
+
+  grados: any[] = [];
+  edad: string;
   
   constructor( public fb: FormBuilder, public datepipe: DatePipe, private personaService: PersonaService) { }
 
@@ -31,7 +40,9 @@ export class ManagePersonaComponent implements OnInit {
     this.crearFormulario();
     if (this.action=="Editar") {
       this.title="Editar Alumno";
+      this.loadGradosByNivel(this.inputAlumno.nivel);
       this.inicializarFormulario();
+      this.calcularEdad()
     }else{
       this.title="Registrar Alumno";
     }
@@ -65,6 +76,39 @@ export class ManagePersonaComponent implements OnInit {
     this.personasForm.controls["fechaNacimiento"].setValue(fechaNac);
   }
 
+  onChangeNivel(nivel:any){
+    console.log(nivel);
+    this.grados = [];
+    let nivelValue = nivel.target.value;
+    this.loadGradosByNivel(nivelValue);
+  }
+  loadGradosByNivel(nivelValue: string){
+    if(nivelValue == "INICIAL"){
+      this.grados = [
+        { value: "3 AÑOS", label: "3 años"},
+        { value: "4 AÑOS", label: "4 años"},
+        { value: "5 AÑOS", label: "5 años"}
+      ];
+    } else if(nivelValue == "PRIMARIA"){
+      this.grados = [
+        { value: "PRIMERO", label: "Primero"},
+        { value: "SEGUNDO", label: "Segundo"},
+        { value: "TERCERO", label: "Tercero"},
+        { value: "CUARTO", label: "Cuarto"},
+        { value: "QUINTO", label: "Quinto"},
+        { value: "SEXTO", label: "Sexto"}
+      ];
+    } else if(nivelValue == "SECUNDARIA"){
+      this.grados = [
+        { value: "PRIMERO", label: "Primero"},
+        { value: "SEGUNDO", label: "Segundo"},
+        { value: "TERCERO", label: "Tercero"},
+        { value: "CUARTO", label: "Cuarto"},
+        { value: "QUINTO", label: "Quinto"}
+      ];
+    }
+  }
+
   close(){
     this.showEditForm = false;
     this.showEditFormChange.emit(this.showEditForm);
@@ -89,5 +133,11 @@ export class ManagePersonaComponent implements OnInit {
         this.close();
       });
     }
+  }
+  calcularEdad(){
+    let fechaActual = moment();
+    let fechaNac = moment(this.inputAlumno.fechaNac).format('YYYY-MM-DD');
+    let age = moment.duration(fechaActual.diff(fechaNac));
+    this.edad = "Edad: " + age.years() + " año(s) " + age.months() + " mes(es) ";
   }
 }

@@ -51,6 +51,8 @@ export class PersonasComponent implements OnInit {
     this.personasService.cargarAlumnos().subscribe(data=>{
       this.alumnos=data;
       this.collectionSize = this.alumnos.length;
+     /*  this.refreshAlumnos();
+      this.isLoading = false; */
      });
   }
 
