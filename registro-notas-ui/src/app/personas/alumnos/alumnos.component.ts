@@ -1,19 +1,19 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
-import { PersonaService } from './persona.service';
-import { Persona } from './persona';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { CsvDataService } from './csv-data.service';
-import { ConfirmModalComponent } from '../core/confirm-modal/confirm-modal.component';
-import { SortEvent, SortHeaderDirective } from '../core/directives/sort-header.directive';
+import { ConfirmModalComponent } from 'src/app/core/confirm-modal/confirm-modal.component';
+import { SortEvent, SortHeaderDirective } from 'src/app/core/directives/sort-header.directive';
+import { CsvDataService } from '../csv-data.service';
+import { Persona } from '../persona';
+import { PersonaService } from '../persona.service';
 
 const compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 @Component({
-  selector: 'app-personas',
-  templateUrl: './personas.component.html',
-  styleUrls: ['./personas.component.scss']
+  selector: 'app-alumnos',
+  templateUrl: './alumnos.component.html',
+  styleUrls: ['./alumnos.component.scss']
 })
-export class PersonasComponent implements OnInit {
+export class AlumnosComponent implements OnInit {
 
   columns: string[] = ["Nombres", "Apellidos", "Telefono", "Nivel", "Grado", "Seccion", "Direccion", "Email"];
   alumnos: Persona[]=[];
@@ -77,7 +77,7 @@ export class PersonasComponent implements OnInit {
     this.router.navigate(['home']);
   }
 
-  addPersona(){
+  addAlumno(){
     this.isSelected=true;
     this.action = "Registrar";
     this.alumnoSelected= {} as Persona;

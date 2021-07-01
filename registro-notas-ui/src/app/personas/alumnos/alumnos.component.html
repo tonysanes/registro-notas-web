@@ -1,13 +1,13 @@
 <div *ngIf= "!isSelected" >
   
-  <h4>Personas</h4>
+  <h4>Alumnos</h4>
 
   <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" (click)="goToHome()" href="#">Home</a>
       <div>
         <i class="bi bi-download" style="margin-right: 10px;" (click)="exportCsv()" data-bs-toggle="tooltip" data-bs-placement="top" title="Export"></i>
-        <i class="bi bi-person-plus" style="margin-right: 10px;" (click)="addPersona()" data-bs-toggle="tooltip" data-bs-placement="top" title="Register"></i>
+        <i class="bi bi-person-plus" style="margin-right: 10px;" (click)="addAlumno()" data-bs-toggle="tooltip" data-bs-placement="top" title="Register"></i>
         <i class="bi bi-arrow-clockwise" (click)="reload()" data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"></i>
       </div>
     </div>
@@ -62,11 +62,11 @@
     </div>
 
 </div>
-<app-manage-persona 
+<app-manage-alumno 
   *ngIf= "isSelected"
   [action] = "action"
   [inputAlumno] = "alumnoSelected" 
   [(showEditForm)] = "isSelected"
   (refreshPersonas) = "reload()"
 >
-</app-manage-persona>
+</app-manage-alumno>

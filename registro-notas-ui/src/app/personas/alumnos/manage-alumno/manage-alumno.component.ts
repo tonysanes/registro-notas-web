@@ -1,16 +1,16 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PersonaService } from '../persona.service';
+import { PersonaService } from '../../persona.service';
 import * as moment from 'moment';
-import { Persona } from '../persona';
+import { Persona } from '../../persona';
 
 @Component({
-  selector: 'app-manage-persona',
-  templateUrl: './manage-persona.component.html',
-  styleUrls: ['./manage-persona.component.scss']
+  selector: 'app-manage-alumno',
+  templateUrl: './manage-alumno.component.html',
+  styleUrls: ['./manage-alumno.component.scss']
 })
-export class ManagePersonaComponent implements OnInit {
+export class ManageAlumnoComponent implements OnInit {
   //Parametro de entrada alumo object
   @Input() inputAlumno: Persona;
   @Input() action: string;
@@ -19,7 +19,7 @@ export class ManagePersonaComponent implements OnInit {
   //Parametro de entrada y salida: flag
   @Input() showEditForm: any;
   @Output() showEditFormChange = new EventEmitter();
-  personasForm: FormGroup;
+  alumnosForm: FormGroup;
   title: string;
   submitted = false;
 
@@ -50,7 +50,7 @@ export class ManagePersonaComponent implements OnInit {
   }
 
   crearFormulario(){
-    this.personasForm = this.fb.group({
+    this.alumnosForm = this.fb.group({
       nombres: ['', [Validators.required, Validators.minLength(3)]],
       apellidos: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -64,16 +64,16 @@ export class ManagePersonaComponent implements OnInit {
   }
 
   inicializarFormulario(){
-    this.personasForm.controls["nombres"].setValue(this.inputAlumno.nombres);
-    this.personasForm.controls["apellidos"].setValue(this.inputAlumno.apellidos);
-    this.personasForm.controls["email"].setValue(this.inputAlumno.email);
-    this.personasForm.controls["telefono"].setValue(this.inputAlumno.telefono);
-    this.personasForm.controls["nivel"].setValue(this.inputAlumno.nivel);
-    this.personasForm.controls["grado"].setValue(this.inputAlumno.grado);
-    this.personasForm.controls["seccion"].setValue(this.inputAlumno.seccion);
-    this.personasForm.controls["direccion"].setValue(this.inputAlumno.direccion);
+    this.alumnosForm.controls["nombres"].setValue(this.inputAlumno.nombres);
+    this.alumnosForm.controls["apellidos"].setValue(this.inputAlumno.apellidos);
+    this.alumnosForm.controls["email"].setValue(this.inputAlumno.email);
+    this.alumnosForm.controls["telefono"].setValue(this.inputAlumno.telefono);
+    this.alumnosForm.controls["nivel"].setValue(this.inputAlumno.nivel);
+    this.alumnosForm.controls["grado"].setValue(this.inputAlumno.grado);
+    this.alumnosForm.controls["seccion"].setValue(this.inputAlumno.seccion);
+    this.alumnosForm.controls["direccion"].setValue(this.inputAlumno.direccion);
     let fechaNac = moment(this.inputAlumno.fechaNac).format('YYYY-MM-DD');
-    this.personasForm.controls["fechaNacimiento"].setValue(fechaNac);
+    this.alumnosForm.controls["fechaNacimiento"].setValue(fechaNac);
   }
 
   onChangeNivel(nivel:any){
@@ -114,13 +114,13 @@ export class ManagePersonaComponent implements OnInit {
     this.showEditFormChange.emit(this.showEditForm);
   }
 
-  updatePersona(){
+  submitAlumno(){
     this.submitted = true;
-    if (this.personasForm.invalid) {
+    if (this.alumnosForm.invalid) {
       return;
     }
-    let jsonPersona=this.personasForm.value;
-    jsonPersona['fechaNac']= new Date(this.personasForm.controls["fechaNacimiento"].value);
+    let jsonPersona=this.alumnosForm.value;
+    jsonPersona['fechaNac']= new Date(this.alumnosForm.controls["fechaNacimiento"].value);
     if (this.action=="Editar") {
       jsonPersona['id']=this.inputAlumno.id;
       this.personaService.editarAlumno(jsonPersona).subscribe(res=>{
