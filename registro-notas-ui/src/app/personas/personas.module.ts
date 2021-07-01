@@ -6,11 +6,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CoreModule } from '../core/core.module';
 import { AlumnosComponent } from './alumnos/alumnos.component';
 import { ManageAlumnoComponent } from './alumnos/manage-alumno/manage-alumno.component';
+import { ProfesoresComponent } from './profesores/profesores.component';
+import { ManageProfesorComponent } from './profesores/manage-profesor/manage-profesor.component';
 
 @NgModule({
   declarations: [
     AlumnosComponent,
-    ManageAlumnoComponent
+    ManageAlumnoComponent,
+    ProfesoresComponent,
+    ManageProfesorComponent
   ],
   imports: [
     CommonModule,

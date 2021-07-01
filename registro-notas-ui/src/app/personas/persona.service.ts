@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Persona } from './persona';
 
 const URL_ALUMNO= "http://localhost:8080/api/alumnos";
+const URL_PROFESOR= "http://localhost:8080/api/profesores";
 
 @Injectable({
   providedIn: 'root'

@@ -12,12 +12,12 @@ const routes: Routes = [
     redirectTo:"/home",
     pathMatch:"full"
   },
-  {
+  /* {
     path:"alumnos",
     loadChildren:  () => import('./personas/personas.module').then(m => m.PersonasModule)
-  },
+  }, */
   {
-    path:"profesores",
+    path:"personas",
     loadChildren:  () => import('./personas/personas.module').then(m => m.PersonasModule)
   },
   {
