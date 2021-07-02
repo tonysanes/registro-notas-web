@@ -1,1 +1,41 @@
 <p>profesores works!</p>
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" (click)="goToHome()">Home</a>
+      <div>
+        <i class="bi bi-download" style="margin-right: 10px;" (click)="exportCsv()" data-bs-toggle="tooltip" data-bs-placement="top" title="Export"></i>
+        <i class="bi bi-person-plus" style="margin-right: 10px;" (click)="addProfesor()" data-bs-toggle="tooltip" data-bs-placement="top" title="Register"></i>
+        <i class="bi bi-arrow-clockwise" (click)="reload()" data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"></i>
+      </div>
+    </div>
+  </nav>
+<table class="table table-hover" >
+    <thead>
+      <tr>
+        <!-- <th scope="col" sortable="col" (sort)="onSort($event)" *ngFor="let col of columns"> -->
+        <th scope="col" *ngFor="let col of columns">
+          {{col}}
+        </th>
+        <th scope="col">Accion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let profesor of profesores">
+        <td>{{profesor.nombres}}</td>
+        <td>{{profesor.apellidos}}</td>
+        <td>{{profesor.dni}}</td>
+        <td>{{profesor.direccion}}</td>
+        <td>{{profesor.telefono}}</td>
+        <td>{{profesor.email}}</td>
+        <td style="text-align: end;">
+          <span style="margin-right: 5px;">
+            <i class="bi bi-pencil" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"></i>
+          </span>
+          <span>
+            <i class="bi bi-trash" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar"></i>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <app-manage-profesor *ngIf="isSelected"> </app-manage-profesor>

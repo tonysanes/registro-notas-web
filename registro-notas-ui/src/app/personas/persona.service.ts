@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Persona } from './persona';
+import { Profesor } from './profesor';
 
 const URL_ALUMNO= "http://localhost:8080/api/alumnos";
 const URL_PROFESOR= "http://localhost:8080/api/profesores";
@@ -34,4 +35,9 @@ export class PersonaService {
   eliminarAlumno(id: number){
     return this.http.delete<Persona>(URL_ALUMNO+"/"+id, { headers: this.headers });
   }
+
+  //service profesor
+  cargarProfesor() {
+    return this.http.get<Profesor[]>(URL_PROFESOR, { headers: this.headers });
+   }
 }
