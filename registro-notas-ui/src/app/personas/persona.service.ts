@@ -40,4 +40,16 @@ export class PersonaService {
   cargarProfesor() {
     return this.http.get<Profesor[]>(URL_PROFESOR, { headers: this.headers });
    }
+
+   eliminarProfesor(id: number){
+    return this.http.delete<Profesor>(URL_PROFESOR+"/"+id, { headers: this.headers });
+  }
+
+  editarProfesor(profesor: Profesor){
+    return this.http.put<Profesor>(URL_PROFESOR, profesor, { headers: this.headers });
+  }
+
+  registrarProfesor(profesor: Profesor){
+    return this.http.post<Profesor>(URL_PROFESOR, profesor, { headers: this.headers });
+  }
 }
