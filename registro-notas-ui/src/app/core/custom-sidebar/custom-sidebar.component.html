@@ -1,0 +1,16 @@
+<ng-sidebar-container style="position:initial;">
+ 
+    <!-- A sidebar -->
+    <ng-sidebar [(opened)]="opened" position="right" mode="over" [showBackdrop]="true">
+        <div *ngIf="opened" style="background-color: white; height: 100vh;">
+            <p>Sidebar contents</p>
+            <a closeSidebar>Closes the sidebar</a>
+        </div>
+    </ng-sidebar>
+
+    <!-- Page content -->
+    <div ng-sidebar-content>
+      <button (click)="toggleSidebar()">Toggle sidebar</button>
+    </div>
+
+</ng-sidebar-container>

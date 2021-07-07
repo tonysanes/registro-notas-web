@@ -1,0 +1,131 @@
+<app-custom-sidebar
+*ngIf="isOpened"
+[opened]="isOpened"
+(closed)="closeSidebar()"
+></app-custom-sidebar>
+<div class="list row">
+    
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Administrativos</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="col-md-12">
+        <h4 style="margin-bottom: 20px;">Administrativos</h4>
+    </div>
+    <div class="col-md-12">
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <div class="col-md-8">
+                    <!-- <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="nombre" (keyup.enter)="searchAlumno()"/>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" (click)="searchAlumno()">Search</button>
+                        </div>
+                    </div> -->
+                    <div class="input-group">
+                        <input 
+                            type="text" 
+                            placeholder="Search by name" 
+                            [(ngModel)]="selectedValue" 
+                            [typeahead]="autosuggests" 
+                            typeaheadOptionField="fullname" 
+                            [typeaheadScrollable]="true"  
+                            (typeaheadOnSelect)="onSelect($event)" 
+                            class="form-control custom-input"
+                            aria-describedby="button-addon2"
+                        > 
+                        <span><i *ngIf="selectedValue != ''" (click)="clearSearch()" class="bi bi-x-lg custom-x"></i></span>
+                        <span class="custom-separator">|</span>
+                        <span ><i id="button-addon2" class="bi bi-search custom-i"></i></span>
+                    </div>
+                </div>
+
+                <div>
+                    <i class="bi bi-download" style="margin-right: 10px;" (click)="exportCsv()" data-bs-toggle="tooltip" data-bs-placement="top" title="Export"></i>
+                    <i class="bi bi-person-plus" style="margin-right: 10px;" (click)="addAlumno()" data-bs-toggle="tooltip" data-bs-placement="top" title="Register"></i>
+                    <i class="bi bi-arrow-clockwise" (click)="reload()" data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"></i>
+                </div>
+            </div>
+          </nav>
+    </div>
+
+  
+    <div class="col-md-12">
+        <table class="table table-hover" >
+            <thead>
+              <tr>
+                <!-- <th scope="col" sortable="col" (sort)="onSort($event)" *ngFor="let col of columns"> -->
+                <th scope="col" *ngFor="let col of columns" (click)="sortColumn(col)">
+                  {{col}}
+                  <span *ngIf="sortKey == col" style="margin-right: 5px;">
+                    <i *ngIf="sortDirection=='DESC'" class="bi bi-arrow-down-short" data-bs-toggle="tooltip" data-bs-placement="top" title="DESC"></i>
+                    <i *ngIf="sortDirection=='ASC'" class="bi bi-arrow-up-short" data-bs-toggle="tooltip" data-bs-placement="top" title="ASC"></i>
+                  </span>
+                </th>
+                <th scope="col">Accion</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="
+              let alumno of alumnos | paginate : 
+                    {
+                      itemsPerPage: pageSize,
+                      currentPage: page,
+                      totalItems: count
+                    }; 
+                    let i = index"
+            [class.active]="i == currentIndex"
+            (click)="setActiveAlumno(alumno, i)">
+                <td>{{alumno.nombres}}</td>
+                <td>{{alumno.apellidos}}</td>
+                <td>{{alumno.telefono}}</td>
+                <td>{{alumno.nivel}}</td>
+                <td>{{alumno.grado}}</td>
+                <td>{{alumno.seccion}}</td>
+                <td>{{alumno.direccion}}</td>
+                <td>{{alumno.email}}</td>
+                <td style="text-align: end;">
+                  <span style="margin-right: 5px;">
+                    <i class="bi bi-pencil" (click)="editarAlumno(alumno)" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"></i>
+                  </span>
+                  <span>
+                    <i class="bi bi-trash" (click)="openDeleteModal(alumno)"  data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar"></i>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+    <div class="col-md-6 border-bottom">
+        <div class="d-inline">
+            <span class="border-end" style="padding-right: 10px;">{{page}} - {{pages}} of {{count}}</span>
+        </div>
+        <div class="d-inline" style="padding-left: 10px;">
+            Alumnos por pagina:
+            <select (change)="handlePageSizeChange($event)">
+                <option *ngFor="let size of pageSizes" [ngValue]="size">
+                {{ size }}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end border-bottom">
+        <div class="d-inline">
+            Go to: 
+            <input type="text" class="form-control d-inline" style="width: 50px; text-align: center;" placeholder="Page number" [(ngModel)]="currentPage" (keyup.enter)="goToPage()"/>
+            / {{pages}}
+        </div>
+        <pagination-controls
+            previousLabel="Prev"
+            nextLabel="Next"
+            [responsive]="true"
+            (pageChange)="handlePageChange($event)"
+        ></pagination-controls>
+    </div>
+
+  </div>

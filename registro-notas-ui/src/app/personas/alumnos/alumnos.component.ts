@@ -84,7 +84,8 @@ export class AlumnosComponent implements OnInit {
   }
 
   exportCsv(){
-    this.csvService.exportToCsv('alumnos.csv', this.alumnos);
+    this.csvService.exportToCsv('alumnos1.csv', this.alumnos);
+    //this.csvService.downloadFile(this.alumnos, this.columns, 'alumnos2');
   }
 
   openDeleteModal(alumno: Persona) {

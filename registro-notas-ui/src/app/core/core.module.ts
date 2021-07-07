@@ -4,21 +4,26 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { LoaderComponent } from './loader/loader.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { SortHeaderDirective } from './directives/sort-header.directive';
+import { CustomSidebarComponent } from './custom-sidebar/custom-sidebar.component';
+import { SidebarModule } from 'ng-sidebar';
 
 @NgModule({
   declarations: [
     NotFoundComponent,
     LoaderComponent,
     ConfirmModalComponent,
-    SortHeaderDirective
+    SortHeaderDirective,
+    CustomSidebarComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SidebarModule.forRoot()
   ],
   exports: [
     NotFoundComponent,
     LoaderComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    CustomSidebarComponent
   ]
 })
 export class CoreModule { }
