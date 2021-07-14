@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from 'src/app/core/confirm-modal/confirm-modal.component';
 import { CsvDataService } from '../csv-data.service';
-import { Persona } from '../persona';
 import { PersonaService } from '../persona.service';
 import { Profesor } from '../profesor';
 
@@ -13,7 +12,7 @@ import { Profesor } from '../profesor';
   styleUrls: ['./profesores.component.scss']
 })
 export class ProfesoresComponent implements OnInit {
-  columns: string[] = ["Nombres", "Apellidos", "Dni", "Direccion", "Telefono", "Email"];
+  columns: string[] = ["Nombres", "Apellidos", "Dni", "Genero", "Direccion", "Telefono", "Fecha Nacimiento", "Email"];
   profesores: Profesor[]=[];
   profesorSelected: Profesor;
   isSelected: boolean = false;

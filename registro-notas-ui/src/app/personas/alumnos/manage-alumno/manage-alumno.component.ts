@@ -8,11 +8,11 @@ import * as moment from 'moment';
 import { PersonaService } from '../../persona.service';
 
 @Component({
-  selector: 'app-manage-administrativos',
-  templateUrl: './manage-administrativos.component.html',
-  styleUrls: ['./manage-administrativos.component.scss']
+  selector: 'app-manage-alumno',
+  templateUrl: './manage-alumno.component.html',
+  styleUrls: ['./manage-alumno.component.scss']
 })
-export class ManageAdministrativosComponent implements OnInit {
+export class ManageAlumnoComponent implements OnInit {
 
   currentAlumno: Alumno;
   alumnosForm: FormGroup;
@@ -59,6 +59,7 @@ export class ManageAdministrativosComponent implements OnInit {
       nivel: ['', Validators.required],
       grado: ['', Validators.required],
       seccion: ['', Validators.required],
+      genero: ['', Validators.required],
       direccion: ['', Validators.required],
       fechaNacimiento: ['', Validators.required]
     });
@@ -72,6 +73,7 @@ export class ManageAdministrativosComponent implements OnInit {
     this.alumnosForm.controls["nivel"].setValue(this.currentAlumno.nivel);
     this.alumnosForm.controls["grado"].setValue(this.currentAlumno.grado);
     this.alumnosForm.controls["seccion"].setValue(this.currentAlumno.seccion);
+    this.alumnosForm.controls["genero"].setValue(this.currentAlumno.genero);
     this.alumnosForm.controls["direccion"].setValue(this.currentAlumno.direccion);
     let fechaNac = moment(this.currentAlumno.fechaNac).format('YYYY-MM-DD');
     this.alumnosForm.controls["fechaNacimiento"].setValue(fechaNac);
@@ -94,11 +96,11 @@ export class ManageAdministrativosComponent implements OnInit {
     if (this.isEditing) {
       jsonPersona['id']=this.currentAlumno.id;
       this.personaService.editarAlumno(jsonPersona).subscribe(res=>{
-        this.router.navigate(['personas/administrativos']);
+        this.router.navigate(['personas/alumnos']);
       });
     } else {
       this.personaService.registrarAlumno(jsonPersona).subscribe(res=>{
-        this.router.navigate(['personas/administrativos']);
+        this.router.navigate(['personas/alumnos']);
       });
     }
   }
@@ -143,7 +145,7 @@ export class ManageAdministrativosComponent implements OnInit {
     this.edad = "Edad: " + age.years() + " año(s) " + age.months() + " mes(es) ";
   }
   close(){
-    this.router.navigate(['personas/administrativos']);
+    this.router.navigate(['personas/alumnos']);
   }
 
 }

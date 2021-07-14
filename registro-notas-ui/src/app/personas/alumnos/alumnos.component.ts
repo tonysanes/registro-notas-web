@@ -9,18 +9,18 @@ import { PersonaService } from '../persona.service';
 import { SharePersonDataService } from './share-person-data.service';
 
 @Component({
-  selector: 'app-administrativos',
-  templateUrl: './administrativos.component.html',
-  styleUrls: ['./administrativos.component.scss']
+  selector: 'app-alumnos',
+  templateUrl: './alumnos.component.html',
+  styleUrls: ['./alumnos.component.scss']
 })
-export class AdministrativosComponent implements OnInit {
-  columns: string[] = ["Nombres", "Apellidos", "Telefono", "Nivel", "Grado", "Seccion", "Direccion", "Email"];
+export class AlumnosComponent implements OnInit {
+  columns: string[] = ["Nombres", "Apellidos", "Telefono", "Nivel", "Grado", "Seccion", "Genero", "Direccion", "Email"];
   alumnos: Alumno[] = [];
   currentAlumno?: Alumno;
   currentIndex = -1;
   nombre = '';
 
-  title = "Administrativos";//TODO change text to Alumnos
+  title = "Alumnos";
   isLoading = false;
 
   //Autosuggest variables
@@ -196,13 +196,13 @@ export class AdministrativosComponent implements OnInit {
 
   //To lands to the manage-alumno page with action = register
   addAlumno(){
-    this.router.navigate(['personas/administrativos/create']);
+    this.router.navigate(['personas/alumnos/create']);
   }
 
   //To lands to the manage-alumno component with action = edit
   editarAlumno(alumno: Alumno){
     this.alumnoService.changeAlumno(alumno);//Seteando un alumno al shareDataAlumno service
-    this.router.navigate(['personas/administrativos/edit']);
+    this.router.navigate(['personas/alumnos/edit']);
     this.isOpened = true;
   }
 

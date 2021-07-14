@@ -6,6 +6,7 @@ export interface Alumno {
 	nivel: string;
 	grado: string;
 	seccion: string;
+	genero: string;
 	direccion: string;
 	telefono: string;
 	email: string;

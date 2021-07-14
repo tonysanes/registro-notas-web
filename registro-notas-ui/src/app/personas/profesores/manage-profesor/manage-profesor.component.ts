@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PersonaService } from '../../persona.service';
 import { Profesor } from '../../profesor';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-manage-profesor',
@@ -41,7 +42,9 @@ export class ManageProfesorComponent implements OnInit {
       nombres: ['', [Validators.required, Validators.minLength(3)]],
       apellidos: ['', [Validators.required, Validators.minLength(3)]],
       dni: ['', [Validators.required, Validators.minLength(8)]],
+      genero: ['', [Validators.required]],
       telefono: ['', [Validators.required, Validators.minLength(6)]],
+      fechaNac: ['', [Validators.required]],
       direccion: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]]
     });
@@ -52,7 +55,10 @@ export class ManageProfesorComponent implements OnInit {
     this.profesorForm.controls["nombres"].setValue(this.profesor.nombres);
     this.profesorForm.controls["apellidos"].setValue(this.profesor.apellidos);
     this.profesorForm.controls["dni"].setValue(this.profesor.dni);
+    this.profesorForm.controls["genero"].setValue(this.profesor.genero);
     this.profesorForm.controls["telefono"].setValue(this.profesor.telefono);
+    let fechaNac = moment(this.profesor.fechaNac).format('YYYY-MM-DD');
+    this.profesorForm.controls["fechaNac"].setValue(fechaNac);
     this.profesorForm.controls["direccion"].setValue(this.profesor.direccion);
     this.profesorForm.controls["email"].setValue(this.profesor.email);
   }

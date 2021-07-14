@@ -1,5 +1,4 @@
 <div *ngIf="!isSelected">
-  <p>profesores works!</p>
   <nav class="navbar navbar-light bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" (click)="goToHome()">Home</a>
@@ -25,8 +24,10 @@
           <td>{{profesor.nombres}}</td>
           <td>{{profesor.apellidos}}</td>
           <td>{{profesor.dni}}</td>
+          <td>{{profesor.genero}}</td>
           <td>{{profesor.direccion}}</td>
           <td>{{profesor.telefono}}</td>
+          <td>{{profesor.fechaNac}}</td>
           <td>{{profesor.email}}</td>
           <td style="text-align: end;">
             <span style="margin-right: 5px;">

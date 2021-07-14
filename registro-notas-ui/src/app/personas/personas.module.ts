@@ -6,12 +6,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CoreModule } from '../core/core.module';
 import { ProfesoresComponent } from './profesores/profesores.component';
 import { ManageProfesorComponent } from './profesores/manage-profesor/manage-profesor.component';
-import { AdministrativosComponent } from './administrativos/administrativos.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { SidebarModule } from 'ng-sidebar';
-import { ManageAdministrativosComponent } from './administrativos/manage-administrativos/manage-administrativos.component';
 import { TagInputModule } from 'ngx-chips';
+import { AlumnosComponent } from './alumnos/alumnos.component';
+import { ManageAlumnoComponent } from './alumnos/manage-alumno/manage-alumno.component';
 
 TagInputModule.withDefaults({
   tagInput: {
@@ -23,8 +23,8 @@ TagInputModule.withDefaults({
     
     ProfesoresComponent,
     ManageProfesorComponent,
-    AdministrativosComponent,
-    ManageAdministrativosComponent
+    AlumnosComponent,
+    ManageAlumnoComponent
   ],
   imports: [
     CommonModule,

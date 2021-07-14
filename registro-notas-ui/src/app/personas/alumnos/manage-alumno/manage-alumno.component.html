@@ -77,6 +77,19 @@
                 <div *ngIf="alumnosForm.controls.seccion.errors.required">Debe seleccionar una Seccion</div>
             </div>
         </div>
+
+        <div class="form-floating col-md-4">
+            <select id="genero" class="form-select" formControlName="genero" [ngClass]="{ 'is-invalid': submitted && alumnosForm.controls.genero.errors }">
+                <option selected value="">Selecionar Genero</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+            </select>
+            <label class="custom-label" for="genero">Genero</label>
+            <div *ngIf="submitted && alumnosForm.controls.genero.errors" class="invalid-feedback">
+                <div *ngIf="alumnosForm.controls.genero.errors.required">Debe seleccionar un Genero</div>
+            </div>
+        </div>
+
         <!--text area-->
         <div class="form-floating col-md-12">
             <textarea id="direccion" formControlName="direccion" class="form-control" id="direccion" rows="2" placeholder="Direccion"

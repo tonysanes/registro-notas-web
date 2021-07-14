@@ -35,6 +35,18 @@
             </div>
         </div>
 
+        <div class="form-floating col-md-4">
+            <select id="genero" class="form-select" formControlName="genero" [ngClass]="{ 'is-invalid': submitted && profesorForm.controls.genero.errors }">
+                <option selected value="">Selecionar Genero</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+            </select>
+            <label class="custom-label" for="genero">Genero</label>
+            <div *ngIf="submitted && profesorForm.controls.genero.errors" class="invalid-feedback">
+                <div *ngIf="profesorForm.controls.genero.errors.required">Debe seleccionar un Genero</div>
+            </div>
+        </div>
+
         <div class="form-floating col-md-6">
             <input id="telefono" formControlName="telefono" type="text" class="form-control" placeholder="Numero Telefono"
                     [ngClass]="{ 'is-invalid': submitted && profesorForm.controls.telefono.errors }">
@@ -42,6 +54,15 @@
             <div *ngIf="submitted && profesorForm.controls.telefono.errors" class="invalid-feedback">
                 <div *ngIf="profesorForm.controls.telefono.errors.required">El Numero de Telefono es requerido</div>
                 <div *ngIf="profesorForm.controls.telefono.errors.minlength">El Numero de Telefono no puede ser menos de 6 digitos</div>
+            </div>
+        </div>
+
+        <div class="form-floating col-md-4">
+            <input id="fechaNac" formControlName="fechaNac" type="date" class="form-control" placeholder="Fecha Nacimiento"
+                    [ngClass]="{ 'is-invalid': submitted && profesorForm.controls.fechaNac.errors }">
+            <label class="custom-label" for="fechaNac">Fecha Nacimiento</label>
+            <div *ngIf="submitted && profesorForm.controls.fechaNac.errors" class="invalid-feedback">
+                <div *ngIf="profesorForm.controls.fechaNac.errors.required">La Fecha Nacimiento es requerida</div>
             </div>
         </div>
 
