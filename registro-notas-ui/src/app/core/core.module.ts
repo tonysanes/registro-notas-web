@@ -6,6 +6,7 @@ import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { SortHeaderDirective } from './directives/sort-header.directive';
 import { CustomSidebarComponent } from './custom-sidebar/custom-sidebar.component';
 import { SidebarModule } from 'ng-sidebar';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SidebarModule } from 'ng-sidebar';
   ],
   imports: [
     CommonModule,
-    SidebarModule.forRoot()
+    SidebarModule.forRoot(),
+    ReactiveFormsModule
   ],
   exports: [
     NotFoundComponent,

@@ -13,7 +13,13 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { SidebarModule } from 'ng-sidebar';
 import { ManageAdministrativosComponent } from './administrativos/manage-administrativos/manage-administrativos.component';
+import { TagInputModule } from 'ngx-chips';
 
+TagInputModule.withDefaults({
+  tagInput: {
+      placeholder: '',
+  }
+});
 @NgModule({
   declarations: [
     AlumnosComponent,
@@ -32,7 +38,8 @@ import { ManageAdministrativosComponent } from './administrativos/manage-adminis
     ReactiveFormsModule,
     NgxPaginationModule,
     NgbModule,
-    SidebarModule.forRoot()
+    SidebarModule.forRoot(),
+    TagInputModule
   ],
   providers: [
     DatePipe

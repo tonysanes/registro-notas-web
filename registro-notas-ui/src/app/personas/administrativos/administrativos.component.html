@@ -1,35 +1,49 @@
+<!-- Filters sidebar child component -->
 <app-custom-sidebar
-*ngIf="isOpened"
-[opened]="isOpened"
-(closed)="closeSidebar()"
+  *ngIf="isOpened"
+  [opened]="isOpened"
+  [filters]="itemsAsObjects"
+  (closed)="closeSidebar($event)"
+  (changeFilters)="editFilters($event)"
 ></app-custom-sidebar>
+
 <div class="list row">
     
+    <!-- Navigation section (breadcrumb) -->
     <div class="col-md-12">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Administrativos</li>
+                <li class="breadcrumb-item"><a routerLink="/home" routerLinkActive="active" class="link-dark">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
             </ol>
         </nav>
     </div>
-    <div class="col-md-12">
-        <h4 style="margin-bottom: 20px;">Administrativos</h4>
+
+    <!-- Title section -->
+    <div class="col-md-12 mb-3">
+        <h4 class="mb-0">{{title}}</h4>
+        <span style="font-size: 12px;">{{page}} - {{pages}} of {{count}}</span>
     </div>
+
+    <!-- Toolbar section (search, filters, export csv, register, refresh) -->
     <div class="col-md-12">
-        <nav class="navbar navbar-light bg-light">
-            <div class="container-fluid">
+        
+<!--         <div class="input-group">
+          <input type="search" placeholder="Buscar por nombres y/o apellidos" class="form-control border-end-0 rounded-0">
+          <span class="input-group-append bg-white border-start-0">
+              <span class="input-group-text bg-transparent rounded-0">
+                  <i class="bi bi-search"></i>
+              </span>
+          </span>
+        </div> -->
+
+        <nav class="navbar navbar-light bg-light mb-3">
+            <div class="container-fluid px-2">
                 <div class="col-md-8">
-                    <!-- <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="nombre" (keyup.enter)="searchAlumno()"/>
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" (click)="searchAlumno()">Search</button>
-                        </div>
-                    </div> -->
                     <div class="input-group">
                         <input 
                             type="text" 
-                            placeholder="Search by name" 
+                            placeholder="Buscar por nombres y/o apellidos" 
                             [(ngModel)]="selectedValue" 
                             [typeahead]="autosuggests" 
                             typeaheadOptionField="fullname" 
@@ -38,35 +52,55 @@
                             class="form-control custom-input"
                             aria-describedby="button-addon2"
                         > 
+                        
                         <span><i *ngIf="selectedValue != ''" (click)="clearSearch()" class="bi bi-x-lg custom-x"></i></span>
-                        <span class="custom-separator">|</span>
-                        <span ><i id="button-addon2" class="bi bi-search custom-i"></i></span>
+                        <!-- <span class="custom-separator">|</span> -->
+                        <span ><i id="button-addon2" class="bi bi-search border-start ps-2 custom-i"></i></span>
                     </div>
                 </div>
 
                 <div>
-                    <i class="bi bi-download" style="margin-right: 10px;" (click)="exportCsv()" data-bs-toggle="tooltip" data-bs-placement="top" title="Export"></i>
-                    <i class="bi bi-person-plus" style="margin-right: 10px;" (click)="addAlumno()" data-bs-toggle="tooltip" data-bs-placement="top" title="Register"></i>
-                    <i class="bi bi-arrow-clockwise" (click)="reload()" data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"></i>
+                    <i class="bi bi-person-plus me-2 fs-5" (click)="addAlumno()" data-bs-toggle="tooltip" data-bs-placement="top" title="Register"></i>
+                    <i class="bi bi-download me-2 fs-5" (click)="exportCsv()" data-bs-toggle="tooltip" data-bs-placement="top" title="Export"></i>
+                    <i class="bi bi-funnel me-2 fs-5" (click)="openFilter()" data-bs-toggle="tooltip" data-bs-placement="top" title="Filters"></i>
+                    <i class="bi bi-arrow-clockwise fs-5" (click)="reload()" data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"></i>
                 </div>
             </div>
           </nav>
     </div>
 
-  
-    <div class="col-md-12">
-        <table class="table table-hover" >
+    <!-- Chips section (filters applied) -->
+    <div *ngIf="itemsAsObjects.length > 0" class="col-md-12 form-group">
+      <div class="input-group mb-3">
+        <tag-input 
+          [ngModel]="itemsAsObjects" 
+          [displayBy]="'display'"
+          [hideForm]="true"
+          (onRemove)="onItemRemoved($event)"
+          style="width:inherit"
+        ></tag-input>
+        <span class="position-absolute" style="right: 5px; top: 10px;">
+          <i (click)="removeAllFilters()" class="bi bi-filter-left me-2 fs-5" data-bs-toggle="tooltip" data-bs-placement="top" title="Clear all filters"></i>
+        </span>
+      </div>
+    </div>
+
+    <!-- Table alumnos section -->
+    <div class="col-md-12" style="font-size:14px;">
+        <div *ngIf="isLoading" class="load-contect">
+          <div class="loader"></div>
+        </div>
+        <table class="table table-hover border-top border-3 border-dark" >
             <thead>
               <tr>
-                <!-- <th scope="col" sortable="col" (sort)="onSort($event)" *ngFor="let col of columns"> -->
                 <th scope="col" *ngFor="let col of columns" (click)="sortColumn(col)">
                   {{col}}
-                  <span *ngIf="sortKey == col" style="margin-right: 5px;">
-                    <i *ngIf="sortDirection=='DESC'" class="bi bi-arrow-down-short" data-bs-toggle="tooltip" data-bs-placement="top" title="DESC"></i>
-                    <i *ngIf="sortDirection=='ASC'" class="bi bi-arrow-up-short" data-bs-toggle="tooltip" data-bs-placement="top" title="ASC"></i>
+                  <span *ngIf="sortKey == col" class="me-3">
+                    <i *ngIf="sortDirection=='DESC'" class="bi bi-caret-down-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="DESC"></i>
+                    <i *ngIf="sortDirection=='ASC'" class="bi bi-caret-up-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="ASC"></i>
                   </span>
                 </th>
-                <th scope="col">Accion</th>
+                <th scope="col" class="text-end">Accion</th>
               </tr>
             </thead>
             <tbody>
@@ -88,12 +122,12 @@
                 <td>{{alumno.seccion}}</td>
                 <td>{{alumno.direccion}}</td>
                 <td>{{alumno.email}}</td>
-                <td style="text-align: end;">
-                  <span style="margin-right: 5px;">
-                    <i class="bi bi-pencil" (click)="editarAlumno(alumno)" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"></i>
+                <td class="text-end">
+                  <span class="me-2">
+                    <i class="bi bi-pencil fs-6" (click)="editarAlumno(alumno)" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"></i>
                   </span>
                   <span>
-                    <i class="bi bi-trash" (click)="openDeleteModal(alumno)"  data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar"></i>
+                    <i class="bi bi-trash fs-6" (click)="openDeleteModal(alumno)" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar"></i>
                   </span>
                 </td>
               </tr>
@@ -101,31 +135,34 @@
           </table>
     </div>
 
-    <div class="col-md-6 border-bottom">
+    <!-- Pagination section -->
+    <div class="col-md-6 border-bottom border-3 border-dark pb-3">
         <div class="d-inline">
-            <span class="border-end" style="padding-right: 10px;">{{page}} - {{pages}} of {{count}}</span>
+            <span class="border-end border-2 border-dark pe-3">{{page}} - {{pages}} of {{count}}</span>
         </div>
-        <div class="d-inline" style="padding-left: 10px;">
-            Alumnos por pagina:
-            <select (change)="handlePageSizeChange($event)">
+        <div class="d-inline ps-3">
+            <span>{{title}} por pagina: </span>
+            <select (change)="handlePageSizeChange($event)" class="text-center" style="height: 30px;">
                 <option *ngFor="let size of pageSizes" [ngValue]="size">
                 {{ size }}
                 </option>
             </select>
         </div>
     </div>
-    <div class="col-md-6 d-flex justify-content-end border-bottom">
+    <div class="col-md-6 d-flex justify-content-end border-bottom border-3 border-dark pb-3">
         <div class="d-inline">
-            Go to: 
-            <input type="text" class="form-control d-inline" style="width: 50px; text-align: center;" placeholder="Page number" [(ngModel)]="currentPage" (keyup.enter)="goToPage()"/>
-            / {{pages}}
+          <span>Go to: </span>
+          <input type="number" class="form-control d-inline text-center" style="width: 50px; height:30px;" [(ngModel)]="currentPage" (keyup.enter)="goToPage()"/>
+          <span> / {{pages}}</span>
         </div>
-        <pagination-controls
-            previousLabel="Prev"
-            nextLabel="Next"
-            [responsive]="true"
-            (pageChange)="handlePageChange($event)"
-        ></pagination-controls>
+        <div class="border-start border-2 border-dark ms-3" style="height: 30px;">
+          <pagination-controls
+              previousLabel="Prev"
+              nextLabel="Next"
+              [responsive]="true"
+              (pageChange)="handlePageChange($event)"
+          ></pagination-controls>
+        </div>
     </div>
 
   </div>

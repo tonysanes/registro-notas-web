@@ -1,15 +1,13 @@
 <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Confirmación</h4>
-    <button type="button" class="close" aria-label="Close" (click)="onCancel()">
-        <span aria-hidden="true">&times;</span>
-    </button>
+    <span aria-hidden="true"><i (click)="onCancel()" class="bi bi-x-lg"></i></span>
 </div>
 <div class="modal-body">
     <p>{{message}}</p>
 </div>
 <div class="modal-footer">
     <div>
-        <button type="button" class="btn btn-outline-danger btn-sm" (click)="onCancel()">Cancelar</button>
+        <button type="button" class="btn btn-outline-danger btn-sm" style="margin-right: 15px;" (click)="onCancel()">Cancelar</button>
         <button type="button" class="btn btn-outline-success btn-sm" (click)="onSubmit()">Aceptar</button>
     </div>
 </div>

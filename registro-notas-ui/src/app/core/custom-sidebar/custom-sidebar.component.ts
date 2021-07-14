@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-custom-sidebar',
@@ -8,17 +9,149 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class CustomSidebarComponent implements OnInit {
 
   @Input("opened") opened : boolean = false; 
-  @Output("changeOpen") close : EventEmitter<boolean> = new EventEmitter<boolean>();
-  //opened : boolean = false;
+  @Input("filters") filters: any[] = [];
+  @Output("closed") closed : EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output("changeFilters") changeFilters : EventEmitter<any[]> = new EventEmitter<any[]>();
 
-  constructor() { }
+  filterForm: FormGroup;
+
+  niveles: any[]=[
+    { value:"INICIAL", label:"Inicial" },
+    { value:"PRIMARIA", label:"Primaria" },
+    { value:"SECUNDARIA", label:"Secundaria" },
+  ];
+
+  grados: any[] = [];
+
+  constructor(public fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.crearFormulario();
+    this.inicializarFormulario();
   }
 
   toggleSidebar() {
     this.opened = !this.opened;
-    this.close.emit();
+    this.closed.emit();
+  }
+
+  crearFormulario(){
+    this.filterForm = this.fb.group({
+      nombres: ['', [Validators.required, Validators.minLength(3)]],
+      apellidos: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      telefono: ['', [Validators.required, Validators.minLength(6)]],
+      nivel: ['', Validators.required],
+      grado: ['', Validators.required],
+      seccion: ['', Validators.required],
+      direccion: ['', Validators.required],
+      fechaNacimiento: ['', Validators.required]
+    });
+  }
+
+  prepareFilters(){
+    this.filters = [];
+    let nombres = this.filterForm.controls["nombres"].value;
+    let apellidos = this.filterForm.controls["apellidos"].value;
+    let email = this.filterForm.controls["email"].value;
+    let telefono = this.filterForm.controls["telefono"].value;
+    let nivel = this.filterForm.controls["nivel"].value;
+    let grado = this.filterForm.controls["grado"].value;
+    let seccion = this.filterForm.controls["seccion"].value;
+    let direccion = this.filterForm.controls["direccion"].value;
+    let fechaNacimiento = this.filterForm.controls["fechaNacimiento"].value;
+
+    if( nombres != ""){
+      this.filters.push({key: "nombres", value1: nombres, value2: "", operation: "EQUAL", display: "Nombre="+nombres});
+    }
+    if( apellidos != ""){
+      this.filters.push({key: "apellidos", value1: apellidos, value2: "", operation: "EQUAL", display: "Apellidos="+apellidos});
+    }
+    if( email != ""){
+      this.filters.push({key: "email", value1: email, value2: "", operation: "EQUAL", display: "Email="+email});
+    }
+    if( telefono != ""){
+      this.filters.push({key: "telefono", value1: telefono, value2: "", operation: "EQUAL", display: "Telefono="+telefono});
+    }
+    if( nivel != ""){
+      this.filters.push({key: "nivel", value1: nivel, value2: "", operation: "EQUAL", display: "Nivel="+nivel});
+    }
+    if( grado != ""){
+      this.filters.push({key: "grado", value1: grado, value2: "", operation: "EQUAL", display: "Grado="+grado});
+    }
+    if( seccion != ""){
+      this.filters.push({key: "seccion", value1: seccion, value2: "", operation: "EQUAL", display: "Seccion="+seccion});
+    }
+    if( direccion != ""){
+      this.filters.push({key: "direccion", value1: direccion, value2: "", operation: "EQUAL", display: "Direccion="+direccion});
+    }
+    if( fechaNacimiento != ""){
+      this.filters.push({key: "fechaNacimiento", value1: fechaNacimiento, value2: "", operation: "EQUAL", display: "Nacimiento="+fechaNacimiento});
+    }
+
+  }
+
+  inicializarFormulario(){
+    this.filters.forEach(element => {
+      this.filterForm.controls[element.key].setValue(element.value1);
+      if(element.key == "nivel"){
+        this.loadGradosByNivel(element.value1);
+      }
+    });
+
+/*     this.filterForm.controls["nombres"].setValue(this.currentAlumno.nombres);
+    this.filterForm.controls["apellidos"].setValue(this.currentAlumno.apellidos);
+    this.filterForm.controls["email"].setValue(this.currentAlumno.email);
+    this.filterForm.controls["telefono"].setValue(this.currentAlumno.telefono);
+    this.filterForm.controls["nivel"].setValue(this.currentAlumno.nivel);
+    this.filterForm.controls["grado"].setValue(this.currentAlumno.grado);
+    this.filterForm.controls["seccion"].setValue(this.currentAlumno.seccion);
+    this.filterForm.controls["direccion"].setValue(this.currentAlumno.direccion);
+    let fechaNac = moment(this.currentAlumno.fechaNac).format('YYYY-MM-DD');
+    this.filterForm.controls["fechaNacimiento"].setValue(fechaNac); */
+  }
+
+  onChangeNivel(nivel:any){
+    this.grados = [];
+    let nivelValue = nivel.target.value;
+    this.loadGradosByNivel(nivelValue);
+  }
+
+  loadGradosByNivel(nivelValue: string){
+    if(nivelValue == "INICIAL"){
+      this.grados = [
+        { value: "3 AÑOS", label: "3 años"},
+        { value: "4 AÑOS", label: "4 años"},
+        { value: "5 AÑOS", label: "5 años"}
+      ];
+    } else if(nivelValue == "PRIMARIA"){
+      this.grados = [
+        { value: "PRIMERO", label: "Primero"},
+        { value: "SEGUNDO", label: "Segundo"},
+        { value: "TERCERO", label: "Tercero"},
+        { value: "CUARTO", label: "Cuarto"},
+        { value: "QUINTO", label: "Quinto"},
+        { value: "SEXTO", label: "Sexto"}
+      ];
+    } else if(nivelValue == "SECUNDARIA"){
+      this.grados = [
+        { value: "PRIMERO", label: "Primero"},
+        { value: "SEGUNDO", label: "Segundo"},
+        { value: "TERCERO", label: "Tercero"},
+        { value: "CUARTO", label: "Cuarto"},
+        { value: "QUINTO", label: "Quinto"}
+      ];
+    }
+  }
+  submitFilter(){
+    this.closed.emit(true);
+    this.prepareFilters();
+    console.log(this.filters);
+    this.changeFilters.emit(this.filters);
+  }
+
+  closeFilter(){
+    this.closed.emit(true);
   }
 
 }

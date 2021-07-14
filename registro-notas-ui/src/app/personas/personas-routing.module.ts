@@ -31,6 +31,10 @@ const routes: Routes = [
   {
     path:"administrativos/edit",
     component: ManageAdministrativosComponent
+  },
+  {
+    path:"administrativos/create",
+    component: ManageAdministrativosComponent
   }
 ];
 

@@ -1,3 +1,11 @@
+.custom-filter {
+  width: 2px;
+  position: relative;
+  top: 7px;
+  right: 70px;
+  cursor: pointer;
+  z-index: 1000;
+}
 
 .custom-x {
   width: 2px;
@@ -10,17 +18,6 @@
   color: gray;
 }
 
-.custom-separator {
-  width: 2px;
-  position: relative;
-  top: 0px;
-  right: 50px;
-  cursor: pointer;
-  color: lightgray;
-  font-size: x-large;
-  z-index: 1000;
-}
-
 .custom-i {
   width: 2px;
   position: relative;
@@ -30,7 +27,28 @@
   z-index: 1000;
 }
   
-  .custom-input {
-    padding-left: 10px;
-    width: 420px;
-  }
+.custom-input {
+  padding-left: 10px;
+  width: 420px;
+}
+
+.loader-content{
+  background-color: #CCCCCC;
+  position: relative;
+}
+
+.loader{
+  position: absolute;
+  top:0px;
+  right:0px;
+  width:100%;
+  height:100%;
+  background-color:gray;
+  background-image:url('../../../assets/img/tenor.gif');
+  background-size: 50px;
+  background-repeat:no-repeat;
+  background-position:center;
+  z-index:10000000;
+  opacity: 0.7;
+  filter: alpha(opacity=40);
+}

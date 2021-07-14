@@ -13,7 +13,6 @@ export class SharePersonDataService {
   constructor() { }
 
   changeAlumno(alumno: Alumno) { //set method
-    console.log("Alumno desde service: ",alumno);
     this.alumnoSource.next(alumno);
   }
 
