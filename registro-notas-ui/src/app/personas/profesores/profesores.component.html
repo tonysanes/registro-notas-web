@@ -1,4 +1,21 @@
 <div *ngIf="!isSelected">
+  <!-- Navigation section (breadcrumb) -->
+  <div class="col-md-12">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/home" routerLinkActive="active" class="link-dark">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
+        </ol>
+    </nav>
+  </div>
+
+  <!-- Title section -->
+  <div class="col-md-12 mb-3">
+    <h4 class="mb-0">{{title}}</h4>
+    <!-- <span style="font-size: 12px;">{{page}} - {{pages}} of {{count}}</span> -->
+  </div>
+
+
   <nav class="navbar navbar-light bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" (click)="goToHome()">Home</a>

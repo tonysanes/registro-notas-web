@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Persona } from './persona';
+import { Alumno } from './alumno';
 import { Profesor } from './profesor';
 
 const URL_ALUMNO= "http://localhost:8080/api/alumnos";
@@ -21,13 +21,13 @@ export class PersonaService {
 
   constructor(private http: HttpClient) { }
 
+  //service alumnos
   cargarAlumnosAutosuggest() {
     return this.http.get<any[]>(URL_ALUMNO+"/autosuggets", { headers: this.headers });
   }
 
-
   cargarAlumnos() {
-    return this.http.get<Persona[]>(URL_ALUMNO, { headers: this.headers });
+    return this.http.get<Alumno[]>(URL_ALUMNO, { headers: this.headers });
   }
 
   public loadAlumnos(filters: string, sorts: string, page: number, size: number) : Observable<any>{
@@ -43,22 +43,22 @@ export class PersonaService {
   }
 
   cargarAlumno(id: number){
-    return this.http.get<Persona>(URL_ALUMNO+"/"+id, { headers: this.headers });
+    return this.http.get<Alumno>(URL_ALUMNO+"/"+id, { headers: this.headers });
   }
 
-  editarAlumno(persona: Persona){
-    return this.http.put<Persona>(URL_ALUMNO, persona, { headers: this.headers });
+  editarAlumno(alumno: Alumno){
+    return this.http.put<Alumno>(URL_ALUMNO, alumno, { headers: this.headers });
   }
 
-  registrarAlumno(persona: Persona){
-    return this.http.post<Persona>(URL_ALUMNO, persona, { headers: this.headers });
+  registrarAlumno(alumno: Alumno){
+    return this.http.post<Alumno>(URL_ALUMNO, alumno, { headers: this.headers });
   }
 
   eliminarAlumno(id: number){
-    return this.http.delete<Persona>(URL_ALUMNO+"/"+id, { headers: this.headers });
+    return this.http.delete<Alumno>(URL_ALUMNO+"/"+id, { headers: this.headers });
   }
 
-  //service profesor
+  //service profesores
   cargarProfesor() {
     return this.http.get<Profesor[]>(URL_PROFESOR, { headers: this.headers });
    }

@@ -16,20 +16,26 @@ export class ManageProfesorComponent implements OnInit {
   @Output("change") change: any =new EventEmitter();
   @Output() refreshProfesor = new EventEmitter();
 
-  title:string;
+  title = "Registrar"
   profesorForm: FormGroup;
   submitted: boolean=false;
+
+  maxDate: string;
 
   constructor(private fb: FormBuilder, private personaService:PersonaService) { }
 
   ngOnInit(): void {
+    this.calculateMaxDate();
     this.crearFormulario();
     if (this.action=="Editar") {
-      this.title= "Editar Profesor";
+      this.title= "Editar";
       this.inicializarFormulario();
-    } else {
-      this.title= "Agregar Profesor";      
-    }
+    } 
+  }
+  calculateMaxDate(){
+    let currentDate: number = new Date().getFullYear();
+    this.maxDate = (currentDate-21) + "-12-31";
+    console.log(this.maxDate);
   }
   
   goToProfesores(){
@@ -68,7 +74,9 @@ export class ManageProfesorComponent implements OnInit {
     if (this.profesorForm.invalid) {
       return;
     }
+    debugger;
     let jsonPersona=this.profesorForm.value;
+    jsonPersona['fechaNac']= new Date(this.profesorForm.controls["fechaNac"].value);
     if (this.action== "Editar") {
       jsonPersona['id']= this.profesor.id;
       this.personaService.editarProfesor(jsonPersona).subscribe(

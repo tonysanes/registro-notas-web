@@ -2,6 +2,7 @@ export interface Profesor {
     id?:number;
 	nombres: string;
 	apellidos: string;
+	fechaNac: Date;
 	dni: string;
 	genero: string;
 	direccion: string;
@@ -9,6 +10,5 @@ export interface Profesor {
 	email: string;
 	fechaReg: Date;
 	fechaMod: Date;
-	fechaNac: Date;
 	estado: boolean;
 }

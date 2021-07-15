@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from 'src/app/core/confirm-modal/confirm-modal.component';
+import { SharePersonDataService } from '../alumnos/share-person-data.service';
 import { CsvDataService } from '../csv-data.service';
 import { PersonaService } from '../persona.service';
 import { Profesor } from '../profesor';
@@ -20,8 +21,15 @@ export class ProfesoresComponent implements OnInit {
   action: string;
   confirmationQuestion: string;
   isLoading: boolean = false;
+  title = "Profesores";
 
-  constructor(private personaService: PersonaService, private router: Router, private csvService: CsvDataService, private modalService: NgbModal) { }
+  constructor(
+    private personaService: PersonaService, 
+    private router: Router, 
+    private csvService: CsvDataService, 
+    private modalService: NgbModal,
+    private alumnoService: SharePersonDataService
+    ) { }
 
   ngOnInit(): void {
     this.cargarProfesores();
@@ -38,6 +46,7 @@ export class ProfesoresComponent implements OnInit {
   addProfesor(){
     this.isSelected=true;
     this.action = "Agregar";
+    this.router.navigate(['personas/profesores/create']);
   }
   closeAddProfesor(event: boolean){
     this.isSelected=event;

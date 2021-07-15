@@ -4,18 +4,18 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a routerLink="/home" routerLinkActive="active" class="link-dark">Home</a></li>
-                <li class="breadcrumb-item"><a routerLink="/personas/administrativos" routerLinkActive="active" class="link-dark">Administrativos</a></li>
+                <li class="breadcrumb-item"><a routerLink="/personas/alumnos" routerLinkActive="active" class="link-dark">Alumnos</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
             </ol>
         </nav>
     </div>
 
-    <h4 >{{title}} Administrativo</h4>
+    <h4>{{title}} Alumnos</h4>
 
     <form [formGroup]="alumnosForm" (ngSubmit)="submitAlumno()" class="row g-3">
         <!--input text-->
 
-        <div class="form-floating col-md-6">
+        <div class="form-floating col-md-4">
             <input id="nombres" formControlName="nombres" type="text" class="form-control form-control-sm" placeholder="Nombres"
             [ngClass]="{ 'is-invalid': submitted && alumnosForm.controls.nombres.errors }">
             <label class="custom-label" for="nombres">Nombres</label>
@@ -24,7 +24,7 @@
                 <div *ngIf="alumnosForm.controls.nombres.errors.minlength">El Nombre puede ser menos de 3 caracteres</div>
             </div>
         </div>
-        <div class="form-floating col-md-6">
+        <div class="form-floating col-md-4">
             <input id="apellidos" formControlName="apellidos" type="text" class="form-control form-control-sm" placeholder="Apellidos"
                     [ngClass]="{ 'is-invalid': submitted && alumnosForm.controls.apellidos.errors }">
             <label class="custom-label" for="apellidos">Apellidos</label>
@@ -33,14 +33,15 @@
                 <div *ngIf="alumnosForm.controls.apellidos.errors.minlength">El apellido puede ser menos de 3 caracteres</div>
             </div>
         </div>
-
-        <div class="form-floating col-md-12">
-            <input id="email" formControlName="email" type="email" class="form-control" id="email" placeholder="Email addres"
-                    [ngClass]="{ 'is-invalid': submitted && alumnosForm.controls.email.errors }">
-            <label class="custom-label" for="email">Email addres</label>
-            <div *ngIf="submitted && alumnosForm.controls.email.errors" class="invalid-feedback">
-                <div *ngIf="alumnosForm.controls.email.errors.required">El email es requerido</div>
-                <div *ngIf="alumnosForm.controls.email.errors.email">No es un email valido</div>
+        <div class="form-floating col-md-4">
+            <select id="genero" class="form-select" formControlName="genero" [ngClass]="{ 'is-invalid': submitted && alumnosForm.controls.genero.errors }">
+                <option selected value="">Selecionar Genero</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+            </select>
+            <label class="custom-label" for="genero">Genero</label>
+            <div *ngIf="submitted && alumnosForm.controls.genero.errors" class="invalid-feedback">
+                <div *ngIf="alumnosForm.controls.genero.errors.required">Debe seleccionar un Genero</div>
             </div>
         </div>
     
@@ -78,15 +79,14 @@
             </div>
         </div>
 
-        <div class="form-floating col-md-4">
-            <select id="genero" class="form-select" formControlName="genero" [ngClass]="{ 'is-invalid': submitted && alumnosForm.controls.genero.errors }">
-                <option selected value="">Selecionar Genero</option>
-                <option value="M">Masculino</option>
-                <option value="F">Femenino</option>
-            </select>
-            <label class="custom-label" for="genero">Genero</label>
-            <div *ngIf="submitted && alumnosForm.controls.genero.errors" class="invalid-feedback">
-                <div *ngIf="alumnosForm.controls.genero.errors.required">Debe seleccionar un Genero</div>
+
+        <div class="form-floating col-md-12">
+            <input id="email" formControlName="email" type="email" class="form-control" id="email" placeholder="Email addres"
+                    [ngClass]="{ 'is-invalid': submitted && alumnosForm.controls.email.errors }">
+            <label class="custom-label" for="email">Email addres</label>
+            <div *ngIf="submitted && alumnosForm.controls.email.errors" class="invalid-feedback">
+                <div *ngIf="alumnosForm.controls.email.errors.required">El email es requerido</div>
+                <div *ngIf="alumnosForm.controls.email.errors.email">No es un email valido</div>
             </div>
         </div>
 

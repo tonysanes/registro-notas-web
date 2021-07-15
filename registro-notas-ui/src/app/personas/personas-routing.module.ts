@@ -12,7 +12,11 @@ const routes: Routes = [
     component: ProfesoresComponent
   },
   {
-    path:"profesor/edit",
+    path:"profesores/edit",
+    component: ManageProfesorComponent
+  },
+  {
+    path:"profesores/create",
     component: ManageProfesorComponent
   },
   {
