@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from 'src/app/core/confirm-modal/confirm-modal.component';
-import { SharePersonDataService } from '../alumnos/share-person-data.service';
+import { SharePersonDataService } from '../share-person-data.service';
 import { CsvDataService } from '../csv-data.service';
 import { PersonaService } from '../persona.service';
 import { Profesor } from '../profesor';
@@ -78,5 +78,8 @@ export class ProfesoresComponent implements OnInit {
     this.action = "Editar";
     this.isSelected = true;
     this.profesorSelected = profesor;
+
+    this.alumnoService.setProfesor(profesor);
+    this.router.navigate(["personas/profesores/edit"]);
   }
 }

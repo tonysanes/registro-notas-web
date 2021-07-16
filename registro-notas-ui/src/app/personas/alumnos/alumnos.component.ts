@@ -6,7 +6,7 @@ import { ConfirmModalComponent } from 'src/app/core/confirm-modal/confirm-modal.
 import { Alumno } from '../alumno';
 import { CsvDataService } from '../csv-data.service';
 import { PersonaService } from '../persona.service';
-import { SharePersonDataService } from './share-person-data.service';
+import { SharePersonDataService } from '../share-person-data.service';
 
 @Component({
   selector: 'app-alumnos',

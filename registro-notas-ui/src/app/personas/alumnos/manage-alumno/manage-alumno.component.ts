@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Alumno } from '../../alumno';
-import { SharePersonDataService } from '../share-person-data.service';
+import { SharePersonDataService } from '../../share-person-data.service';
 
 import * as moment from 'moment';
 import { PersonaService } from '../../persona.service';

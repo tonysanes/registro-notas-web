@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PersonaService } from '../../persona.service';
 import { Profesor } from '../../profesor';
 import * as moment from 'moment';
+import { SharePersonDataService } from '../../share-person-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-profesor',
@@ -10,11 +12,8 @@ import * as moment from 'moment';
   styleUrls: ['./manage-profesor.component.scss']
 })
 export class ManageProfesorComponent implements OnInit {
-  @Input("isSelected") isSelected: boolean;
-  @Input("profesor") profesor: Profesor;
-  @Input("action") action: string;
-  @Output("change") change: any =new EventEmitter();
-  @Output() refreshProfesor = new EventEmitter();
+  profesor: Profesor;
+  isEditing: boolean = false;
 
   title = "Registrar"
   profesorForm: FormGroup;
@@ -22,12 +21,25 @@ export class ManageProfesorComponent implements OnInit {
 
   maxDate: string;
 
-  constructor(private fb: FormBuilder, private personaService:PersonaService) { }
+  constructor(
+    private fb: FormBuilder, 
+    private router: Router,
+    private personaService:PersonaService,
+    private profesorService: SharePersonDataService
+    ) { }
 
   ngOnInit(): void {
     this.calculateMaxDate();
     this.crearFormulario();
-    if (this.action=="Editar") {
+
+    this.isEditing = this.router.url.endsWith('edit');
+
+    if (this.isEditing) {
+      
+      this.profesorService.getProfesor().subscribe(res => {
+        this.profesor = res;
+      });
+
       this.title= "Editar";
       this.inicializarFormulario();
     } 
@@ -39,8 +51,7 @@ export class ManageProfesorComponent implements OnInit {
   }
   
   goToProfesores(){
-    this.isSelected= false;
-    this.change.emit(this.isSelected);
+    this.close();
   }
 
   crearFormulario(){ //Se usa para cualquier opcion
@@ -77,11 +88,10 @@ export class ManageProfesorComponent implements OnInit {
     debugger;
     let jsonPersona=this.profesorForm.value;
     jsonPersona['fechaNac']= new Date(this.profesorForm.controls["fechaNac"].value);
-    if (this.action== "Editar") {
+    if (this.isEditing) {
       jsonPersona['id']= this.profesor.id;
       this.personaService.editarProfesor(jsonPersona).subscribe(
         res =>{
-          this.refreshProfesor.emit();
           this.close();
         },
         error =>{
@@ -91,7 +101,6 @@ export class ManageProfesorComponent implements OnInit {
     }else{
       this.personaService.registrarProfesor(jsonPersona).subscribe(
         res =>{
-          this.refreshProfesor.emit();
           this.close();
         },
         error =>{
@@ -102,8 +111,7 @@ export class ManageProfesorComponent implements OnInit {
   }
 
   close(){
-    this.isSelected = false;
-    this.change.emit(this.isSelected);
+    this.router.navigate(['/personas/profesores']);
   }
 
 }

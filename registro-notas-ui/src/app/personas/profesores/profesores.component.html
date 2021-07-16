@@ -1,4 +1,4 @@
-<div *ngIf="!isSelected">
+<div class="list row">
   <!-- Navigation section (breadcrumb) -->
   <div class="col-md-12">
     <nav aria-label="breadcrumb">
@@ -58,11 +58,11 @@
       </tbody>
     </table>
 </div>
-  <app-manage-profesor 
+<!--   <app-manage-profesor 
   *ngIf="isSelected"
   [isSelected]="isSelected"
   [profesor]="profesorSelected"
   [action]="action"
   (change)="closeAddProfesor($event)"
   (refreshProfesor)="reload()"
-  > </app-manage-profesor>
+  > </app-manage-profesor> -->
