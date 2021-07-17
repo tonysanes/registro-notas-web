@@ -10,22 +10,25 @@ export class CustomSidebarComponent implements OnInit {
 
   @Input("opened") opened : boolean = false; 
   @Input("filters") filters: any[] = [];
+  @Input("openedFrom") openedFrom: string;
   @Output("closed") closed : EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output("changeFilters") changeFilters : EventEmitter<any[]> = new EventEmitter<any[]>();
 
   filterForm: FormGroup;
 
-  niveles: any[]=[
-    { value:"INICIAL", label:"Inicial" },
-    { value:"PRIMARIA", label:"Primaria" },
-    { value:"SECUNDARIA", label:"Secundaria" },
-  ];
-
+  niveles: any[]=[{value:"INICIAL",label:"Inicial"},{value:"PRIMARIA",label:"Primaria"},{value:"SECUNDARIA",label:"Secundaria"}];
   grados: any[] = [];
+  generos: any[] = [{value:"M",label:"Masculino"},{value:"F",label:"Femenino"}];
+
+  isAlumnoFilter = false;
+  isProfesorFilter = false;
 
   constructor(public fb: FormBuilder) { }
 
   ngOnInit(): void {
+    console.log(this.filters);
+    this.isAlumnoFilter = (this.openedFrom == "Alumnos");
+    this.isProfesorFilter = (this.openedFrom == "Profesores");
     this.crearFormulario();
     this.inicializarFormulario();
   }
@@ -41,12 +44,19 @@ export class CustomSidebarComponent implements OnInit {
       apellidos: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       telefono: ['', [Validators.required, Validators.minLength(6)]],
-      nivel: ['', Validators.required],
-      grado: ['', Validators.required],
-      seccion: ['', Validators.required],
+      genero: ['', Validators.required],
       direccion: ['', Validators.required],
       fechaNacimiento: ['', Validators.required]
     });
+
+    if(this.isAlumnoFilter){
+      this.filterForm.addControl("nivel", this.fb.control('', Validators.required));
+      this.filterForm.addControl("grado", this.fb.control('', Validators.required));
+      this.filterForm.addControl("seccion", this.fb.control('', Validators.required));
+    }
+    if(this.isProfesorFilter){
+      this.filterForm.addControl("dni", this.fb.control('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]));
+    }
   }
 
   prepareFilters(){
@@ -55,11 +65,31 @@ export class CustomSidebarComponent implements OnInit {
     let apellidos = this.filterForm.controls["apellidos"].value;
     let email = this.filterForm.controls["email"].value;
     let telefono = this.filterForm.controls["telefono"].value;
-    let nivel = this.filterForm.controls["nivel"].value;
-    let grado = this.filterForm.controls["grado"].value;
-    let seccion = this.filterForm.controls["seccion"].value;
     let direccion = this.filterForm.controls["direccion"].value;
     let fechaNacimiento = this.filterForm.controls["fechaNacimiento"].value;
+    let genero = this.filterForm.controls["genero"].value;
+
+    if(this.isAlumnoFilter){
+      let nivel = this.filterForm.controls["nivel"].value;
+      let grado = this.filterForm.controls["grado"].value;
+      let seccion = this.filterForm.controls["seccion"].value;
+      if( nivel != ""){
+        this.filters.push({key: "nivel", value1: nivel, value2: "", operation: "EQUAL", display: "Nivel="+nivel});
+      }
+      if( grado != ""){
+        this.filters.push({key: "grado", value1: grado, value2: "", operation: "EQUAL", display: "Grado="+grado});
+      }
+      if( seccion != ""){
+        this.filters.push({key: "seccion", value1: seccion, value2: "", operation: "EQUAL", display: "Seccion="+seccion});
+      }
+    }
+
+    if(this.isProfesorFilter){
+      let dni = this.filterForm.controls["dni"].value;
+      if( dni != ""){
+        this.filters.push({key: "dni", value1: dni, value2: "", operation: "EQUAL", display: "DNI="+dni});
+      }
+    }
 
     if( nombres != ""){
       this.filters.push({key: "nombres", value1: nombres, value2: "", operation: "EQUAL", display: "Nombre="+nombres});
@@ -73,20 +103,14 @@ export class CustomSidebarComponent implements OnInit {
     if( telefono != ""){
       this.filters.push({key: "telefono", value1: telefono, value2: "", operation: "EQUAL", display: "Telefono="+telefono});
     }
-    if( nivel != ""){
-      this.filters.push({key: "nivel", value1: nivel, value2: "", operation: "EQUAL", display: "Nivel="+nivel});
-    }
-    if( grado != ""){
-      this.filters.push({key: "grado", value1: grado, value2: "", operation: "EQUAL", display: "Grado="+grado});
-    }
-    if( seccion != ""){
-      this.filters.push({key: "seccion", value1: seccion, value2: "", operation: "EQUAL", display: "Seccion="+seccion});
-    }
     if( direccion != ""){
       this.filters.push({key: "direccion", value1: direccion, value2: "", operation: "EQUAL", display: "Direccion="+direccion});
     }
     if( fechaNacimiento != ""){
       this.filters.push({key: "fechaNacimiento", value1: fechaNacimiento, value2: "", operation: "EQUAL", display: "Nacimiento="+fechaNacimiento});
+    }
+    if( genero != ""){
+      this.filters.push({key: "genero", value1: genero, value2: "", operation: "EQUAL", display: "Genero="+genero});
     }
 
   }
@@ -94,7 +118,7 @@ export class CustomSidebarComponent implements OnInit {
   inicializarFormulario(){
     this.filters.forEach(element => {
       this.filterForm.controls[element.key].setValue(element.value1);
-      if(element.key == "nivel"){
+      if(this.isAlumnoFilter && element.key == "nivel"){
         this.loadGradosByNivel(element.value1);
       }
     });
@@ -146,7 +170,6 @@ export class CustomSidebarComponent implements OnInit {
   submitFilter(){
     this.closed.emit(true);
     this.prepareFilters();
-    console.log(this.filters);
     this.changeFilters.emit(this.filters);
   }
 

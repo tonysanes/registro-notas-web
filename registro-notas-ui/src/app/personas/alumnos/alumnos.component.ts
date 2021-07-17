@@ -53,7 +53,7 @@ export class AlumnosComponent implements OnInit {
     private alumnoService: SharePersonDataService ) { }
 
   ngOnInit(): void {
-    this.getAlumonosAutosuggest();
+    this.getAlumnosAutosuggest();
     this.retrieveAlumnos();
     this.currentPage = this.page;
   }
@@ -75,7 +75,6 @@ export class AlumnosComponent implements OnInit {
     this.filters = [];
     this.itemsAsObjects = [];
     this.itemsAsObjects = event;
-    this.getFiltersDisplay();
     this.retrieveAlumnos();
   }
 
@@ -97,7 +96,7 @@ export class AlumnosComponent implements OnInit {
   }
 
   //To populate the autosuggest in the search input
-  getAlumonosAutosuggest(){
+  getAlumnosAutosuggest(){
     this.personaService.cargarAlumnosAutosuggest().subscribe(
       res =>{
         this.autosuggests = res;
@@ -220,7 +219,7 @@ export class AlumnosComponent implements OnInit {
   //To delete an alumno by id
   eliminarAlumno(id: number){
     this.personaService.eliminarAlumno(id).subscribe( (data: any)=>{
-      this.getAlumonosAutosuggest();
+      this.getAlumnosAutosuggest();
       this.reload();
     });
   }

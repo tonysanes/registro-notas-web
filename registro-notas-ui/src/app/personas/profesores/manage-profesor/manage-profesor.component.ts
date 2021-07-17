@@ -85,7 +85,6 @@ export class ManageProfesorComponent implements OnInit {
     if (this.profesorForm.invalid) {
       return;
     }
-    debugger;
     let jsonPersona=this.profesorForm.value;
     jsonPersona['fechaNac']= new Date(this.profesorForm.controls["fechaNac"].value);
     if (this.isEditing) {

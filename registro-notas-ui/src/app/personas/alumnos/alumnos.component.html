@@ -2,13 +2,13 @@
 <app-custom-sidebar
   *ngIf="isOpened"
   [opened]="isOpened"
+  [openedFrom]="title"
   [filters]="itemsAsObjects"
   (closed)="closeSidebar($event)"
   (changeFilters)="editFilters($event)"
 ></app-custom-sidebar>
 
 <div class="list row">
-    
     <!-- Navigation section (breadcrumb) -->
     <div class="col-md-12">
         <nav aria-label="breadcrumb">

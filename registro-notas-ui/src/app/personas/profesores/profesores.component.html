@@ -1,3 +1,13 @@
+<!-- Filters sidebar child component -->
+<app-custom-sidebar
+  *ngIf="isOpened"
+  [opened]="isOpened"
+  [openedFrom]="title"
+  [filters]="itemsAsObjects"
+  (closed)="closeSidebar($event)"
+  (changeFilters)="editFilters($event)"
+></app-custom-sidebar>
+
 <div class="list row">
   <!-- Navigation section (breadcrumb) -->
   <div class="col-md-12">
@@ -12,57 +22,135 @@
   <!-- Title section -->
   <div class="col-md-12 mb-3">
     <h4 class="mb-0">{{title}}</h4>
-    <!-- <span style="font-size: 12px;">{{page}} - {{pages}} of {{count}}</span> -->
+    <span style="font-size: 12px;">{{page}} - {{pages}} of {{count}}</span>
   </div>
 
+  <!-- Toolbar section (search, filters, export csv, register, refresh) -->
+  <div class="col-md-12">
+    <nav class="navbar navbar-light bg-light mb-3">
+      <div class="container-fluid px-2">
+          <div class="col-md-8">
+              <div class="input-group">
+                  <input 
+                      type="text" 
+                      placeholder="Buscar por nombres y/o apellidos" 
+                      [(ngModel)]="selectedValue" 
+                      [typeahead]="autosuggests" 
+                      typeaheadOptionField="fullname" 
+                      [typeaheadScrollable]="true"  
+                      (typeaheadOnSelect)="onSelect($event)" 
+                      class="form-control custom-input"
+                      aria-describedby="button-addon2"
+                  > 
+                  <span><i *ngIf="selectedValue != ''" (click)="clearSearch()" class="bi bi-x-lg custom-x"></i></span>
+                  <span ><i id="button-addon2" class="bi bi-search border-start ps-2 custom-i"></i></span>
+              </div>
+          </div>
 
-  <nav class="navbar navbar-light bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand" (click)="goToHome()">Home</a>
-        <div>
-          <i class="bi bi-download" style="margin-right: 10px;" (click)="exportCsv()" data-bs-toggle="tooltip" data-bs-placement="top" title="Export"></i>
-          <i class="bi bi-person-plus" style="margin-right: 10px;" (click)="addProfesor()" data-bs-toggle="tooltip" data-bs-placement="top" title="Register"></i>
-          <i class="bi bi-arrow-clockwise" (click)="reload()" data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"></i>
-        </div>
+          <div>
+              <i class="bi bi-person-plus me-2 fs-5" (click)="addProfesor()" data-bs-toggle="tooltip" data-bs-placement="top" title="Register"></i>
+              <i class="bi bi-download me-2 fs-5" (click)="exportCsv()" data-bs-toggle="tooltip" data-bs-placement="top" title="Export"></i>
+              <i class="bi bi-funnel me-2 fs-5" (click)="openFilter()" data-bs-toggle="tooltip" data-bs-placement="top" title="Filters"></i>
+              <i class="bi bi-arrow-clockwise fs-5" (click)="reload()" data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"></i>
+          </div>
       </div>
     </nav>
-  <table class="table table-hover" >
-      <thead>
-        <tr>
-          <!-- <th scope="col" sortable="col" (sort)="onSort($event)" *ngFor="let col of columns"> -->
-          <th scope="col" *ngFor="let col of columns">
-            {{col}}
-          </th>
-          <th scope="col">Accion</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let profesor of profesores">
-          <td>{{profesor.nombres}}</td>
-          <td>{{profesor.apellidos}}</td>
-          <td>{{profesor.dni}}</td>
-          <td>{{profesor.genero}}</td>
-          <td>{{profesor.direccion}}</td>
-          <td>{{profesor.telefono}}</td>
-          <td>{{profesor.fechaNac}}</td>
-          <td>{{profesor.email}}</td>
-          <td style="text-align: end;">
-            <span style="margin-right: 5px;">
-              <i class="bi bi-pencil" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar" (click)="editarProfesor(profesor)"></i>
-            </span>
-            <span>
-              <i class="bi bi-trash" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar" (click)="openDeleteModal(profesor)"></i>
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  </div>
+
+  <!-- Chips section (filters applied) -->
+  <div *ngIf="itemsAsObjects.length > 0" class="col-md-12 form-group">
+    <div class="input-group mb-3">
+      <tag-input 
+        [ngModel]="itemsAsObjects" 
+        [displayBy]="'display'"
+        [hideForm]="true"
+        (onRemove)="onItemRemoved($event)"
+        style="width:inherit"
+      ></tag-input>
+      <span class="position-absolute" style="right: 5px; top: 10px;">
+        <i (click)="removeAllFilters()" class="bi bi-filter-left me-2 fs-5" data-bs-toggle="tooltip" data-bs-placement="top" title="Clear all filters"></i>
+      </span>
+    </div>
+  </div>
+  
+  <!-- Table profesores section -->
+  <div class="col-md-12" style="font-size:14px;">
+    <div *ngIf="isLoading" class="load-contect">
+      <div class="loader"></div>
+    </div>
+    <table class="table table-hover border-top border-3 border-dark" >
+        <thead>
+          <tr>
+            <!-- <th scope="col" sortable="col" (sort)="onSort($event)" *ngFor="let col of columns"> -->
+            <th scope="col" *ngFor="let col of columns" (click)="sortColumn(col)">
+              {{col}}
+              <span *ngIf="sortKey == col" class="me-3">
+                <i *ngIf="sortDirection=='DESC'" class="bi bi-caret-down-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="DESC"></i>
+                <i *ngIf="sortDirection=='ASC'" class="bi bi-caret-up-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="ASC"></i>
+              </span>
+            </th>
+            <th scope="col" class="text-end">Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="
+          let profesor of profesores | paginate : 
+                {
+                  itemsPerPage: pageSize,
+                  currentPage: page,
+                  totalItems: count
+                }; 
+                let i = index"
+        [class.active]="i == currentIndex"
+        (click)="setActiveProfesor(profesor, i)">
+            <td>{{profesor.nombres}}</td>
+            <td>{{profesor.apellidos}}</td>
+            <td>{{profesor.dni}}</td>
+            <td>{{profesor.genero}}</td>
+            <td>{{profesor.direccion}}</td>
+            <td>{{profesor.telefono}}</td>
+            <td>{{profesor.fechaNac}}</td>
+            <td>{{profesor.email}}</td>
+            <td style="text-align: end;">
+              <span style="margin-right: 5px;">
+                <i class="bi bi-pencil fs-6" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar" (click)="editarProfesor(profesor)"></i>
+              </span>
+              <span>
+                <i class="bi bi-trash fs-6" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar" (click)="openDeleteModal(profesor)"></i>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+
+  <!-- Pagination section -->
+  <div class="col-md-6 border-bottom border-3 border-dark pb-3">
+    <div class="d-inline">
+        <span class="border-end border-2 border-dark pe-3">{{page}} - {{pages}} of {{count}}</span>
+    </div>
+    <div class="d-inline ps-3">
+        <span>{{title}} por pagina: </span>
+        <select (change)="handlePageSizeChange($event)" class="text-center" style="height: 30px;">
+            <option *ngFor="let size of pageSizes" [ngValue]="size">
+            {{ size }}
+            </option>
+        </select>
+    </div>
+  </div>
+  <div class="col-md-6 d-flex justify-content-end border-bottom border-3 border-dark pb-3">
+    <div class="d-inline">
+      <span>Go to: </span>
+      <input type="number" class="form-control d-inline text-center" style="width: 50px; height:30px;" [(ngModel)]="currentPage" (keyup.enter)="goToPage()"/>
+      <span> / {{pages}}</span>
+    </div>
+    <div class="border-start border-2 border-dark ms-3" style="height: 30px;">
+      <pagination-controls
+          previousLabel="Prev"
+          nextLabel="Next"
+          [responsive]="true"
+          (pageChange)="handlePageChange($event)"
+      ></pagination-controls>
+    </div>
 </div>
-<!--   <app-manage-profesor 
-  *ngIf="isSelected"
-  [isSelected]="isSelected"
-  [profesor]="profesorSelected"
-  [action]="action"
-  (change)="closeAddProfesor($event)"
-  (refreshProfesor)="reload()"
-  > </app-manage-profesor> -->
+</div>

@@ -20,26 +20,30 @@
                     <input id="apellidos" formControlName="apellidos" type="text" class="form-control" placeholder="Apellidos">
                     <label class="custom-label" for="apellidos">Apellidos</label>
                 </div>
+                <div *ngIf="isProfesorFilter" class="form-floating col-md-12">
+                    <input id="dni" formControlName="dni" type="text" class="form-control" placeholder="DNI">
+                    <label class="custom-label" for="dni">Apellidos</label>
+                </div>
                 <div class="form-floating col-md-12">
                     <input id="email" formControlName="email" type="email" class="form-control" placeholder="Email addres">
                     <label class="custom-label" for="email">Email addres</label>
                 </div>
 
-                <div class="form-floating col-md-12">
+                <div *ngIf="isAlumnoFilter" class="form-floating col-md-12">
                     <select id="nivel" class="form-select" formControlName="nivel" (change)="onChangeNivel($event)">
                         <option selected value="">Selecionar Nivel</option>
                         <option *ngFor="let nivel of niveles" [value]="nivel.value">{{nivel.label}}</option>
                     </select>
                     <label class="custom-label" for="nivel">Nivel</label>
                 </div>
-                <div class="form-floating col-md-12">
+                <div *ngIf="isAlumnoFilter" class="form-floating col-md-12">
                     <select id="grado" class="form-select" formControlName="grado">
                         <option selected value="">Selecionar Grado</option>
                         <option *ngFor="let grado of grados" [value]="grado.value">{{grado.label}}</option>
                     </select>
                     <label class="custom-label" for="grado">Grado</label>
                 </div>
-                <div class="form-floating col-md-12">
+                <div *ngIf="isAlumnoFilter" class="form-floating col-md-12">
                     <select id="seccion" class="form-select" formControlName="seccion">
                         <option selected value="">Selecionar Seccion</option>
                         <option value="A">A</option>
@@ -47,6 +51,14 @@
                         <option value="C">C</option>
                     </select>
                     <label class="custom-label" for="seccion">Seccion</label>
+                </div>
+
+                <div class="form-floating col-md-12">
+                    <select id="genero" class="form-select" formControlName="genero">
+                        <option selected value="">Selecionar Genero</option>
+                        <option *ngFor="let genero of generos" [value]="genero.value">{{genero.label}}</option>
+                    </select>
+                    <label class="custom-label" for="seccion">Genero</label>
                 </div>
 
                 <div class="form-floating col-md-12">

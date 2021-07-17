@@ -59,11 +59,27 @@ export class PersonaService {
   }
 
   //service profesores
+  public loadProfesores(filters: string, sorts: string, page: number, size: number) : Observable<any>{
+    if(filters != '' && sorts != '') {
+      return this.http.get<any>(URL_PROFESOR + SEPARATOR + filters + SEPARATOR + sorts + SEPARATOR + page + SEPARATOR + size, { headers: this.headersEncoded });
+    } else if(filters != '' && sorts == '') {
+      return this.http.get<any>(URL_PROFESOR + SEPARATOR + filters + SEPARATOR + page + SEPARATOR + size, { headers: this.headersEncoded });
+    } else if(filters == '' && sorts != '') {
+      return this.http.get<any>(URL_PROFESOR + SEPARATOR + sorts + SEPARATOR + page + SEPARATOR + size, { headers: this.headersEncoded });
+    } else {
+      return this.http.get<any>(URL_PROFESOR + SEPARATOR + page + SEPARATOR + size, { headers: this.headersEncoded });
+    }
+  }
+
+  cargarProfesoresAutosuggest() {
+    return this.http.get<any[]>(URL_PROFESOR+"/autosuggets", { headers: this.headers });
+  }
+
   cargarProfesor() {
     return this.http.get<Profesor[]>(URL_PROFESOR, { headers: this.headers });
-   }
+  }
 
-   eliminarProfesor(id: number){
+  eliminarProfesor(id: number){
     return this.http.delete<Profesor>(URL_PROFESOR+"/"+id, { headers: this.headers });
   }
 
