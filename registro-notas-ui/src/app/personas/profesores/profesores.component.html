@@ -8,7 +8,18 @@
   (changeFilters)="editFilters($event)"
 ></app-custom-sidebar>
 
+
 <div class="list row">
+  <!-- alert -->
+  <div *ngIf="isError" class="col-md-12 position-relative">
+    <div class="alert alert-danger d-flex position-absolute top-0 end-0 w-50" role="alert">
+      <i class="bi bi-exclamation-triangle-fill fs-5 me-3"></i>
+      <div >
+        <span class="align-middle">Algo salio mal mientras cargamos datos de profesores</span>
+      </div>
+      <button type="button" (click)="closeAlert()" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
   <!-- Navigation section (breadcrumb) -->
   <div class="col-md-12">
     <nav aria-label="breadcrumb">

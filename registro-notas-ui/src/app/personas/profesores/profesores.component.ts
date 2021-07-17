@@ -45,6 +45,7 @@ export class ProfesoresComponent implements OnInit {
   itemsAsObjects : any[] = [];
 
   isOpened = false;
+  isError = false;
 
   constructor(
     private personaService: PersonaService, 
@@ -109,6 +110,7 @@ export class ProfesoresComponent implements OnInit {
       },
       error => {
         console.log(error);
+        this.isError = true;
         this.isLoading = false;
       }
     );
@@ -251,5 +253,9 @@ export class ProfesoresComponent implements OnInit {
     this.filters = [];
     this.itemsAsObjects = [];
     this.retrieveProfesores();
+  }
+
+  closeAlert(){
+    this.isError = false;
   }
 }
