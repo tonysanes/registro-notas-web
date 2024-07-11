@@ -1,0 +1,106 @@
+
+
+<!-- <nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" (click)="goToProfesores()">Profesores</a>
+    </div>
+</nav> -->
+<div class="w-50">
+
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/home" routerLinkActive="active" class="link-dark">Home</a></li>
+                <li class="breadcrumb-item"><a routerLink="/personas/profesores" routerLinkActive="active" class="link-dark">Profesores</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
+            </ol>
+        </nav>
+    </div>
+
+    <h4>{{title}}</h4>
+
+    <form [formGroup]="profesorForm" (ngSubmit)="submitProfesor()" class="row g-3">
+        <div class="form-floating col-md-4">
+            <input id="dni" formControlName="dni" type="text" class="form-control" placeholder="Numero DNI"
+                    [ngClass]="{ 'is-invalid': submitted && profesorForm.controls.dni.errors }">
+            <label class="custom-label" for="dni">Numero DNI</label>
+            <div *ngIf="submitted && profesorForm.controls.dni.errors" class="invalid-feedback">
+                <div *ngIf="profesorForm.controls.dni.errors.required">El Numero de DNI es requerido</div>
+                <div *ngIf="profesorForm.controls.dni.errors.minlength">El Numero de DNI no puede ser menos de 8 digitos</div>
+            </div>
+        </div>
+        <div class="form-floating col-md-4">
+            <input id="nombres" formControlName="nombres" type="text" class="form-control" placeholder="Nombres"
+            [ngClass]="{ 'is-invalid': submitted && profesorForm.controls.nombres.errors }">
+            <label class="custom-label" for="nombres">Nombres</label>
+            <div *ngIf="submitted && profesorForm.controls.nombres.errors" class="invalid-feedback">
+                <div *ngIf="profesorForm.controls.nombres.errors.required">El Nombre es requerido</div>
+                <div *ngIf="profesorForm.controls.nombres.errors.minlength">El Nombre puede ser menos de 3 caracteres</div>
+            </div>
+        </div>
+        <div class="form-floating col-md-4">
+            <input id="apellidos" formControlName="apellidos" type="text" class="form-control" placeholder="Apellidos"
+                    [ngClass]="{ 'is-invalid': submitted && profesorForm.controls.apellidos.errors }">
+            <label class="custom-label" for="apellidos">Apellidos</label>
+            <div *ngIf="submitted && profesorForm.controls.apellidos.errors" class="invalid-feedback">
+                <div *ngIf="profesorForm.controls.apellidos.errors.required">El Apellido es requerido</div>
+                <div *ngIf="profesorForm.controls.apellidos.errors.minlength">El apellido puede ser menos de 3 caracteres</div>
+            </div>
+        </div>
+
+        <div class="form-floating col-md-4">
+            <select id="genero" class="form-select" formControlName="genero" [ngClass]="{ 'is-invalid': submitted && profesorForm.controls.genero.errors }">
+                <option selected value="">Selecionar Genero</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+            </select>
+            <label class="custom-label" for="genero">Genero</label>
+            <div *ngIf="submitted && profesorForm.controls.genero.errors" class="invalid-feedback">
+                <div *ngIf="profesorForm.controls.genero.errors.required">Debe seleccionar un Genero</div>
+            </div>
+        </div>
+
+        <div class="form-floating col-md-4">
+            <input id="telefono" formControlName="telefono" type="text" class="form-control" placeholder="Numero Telefono"
+                    [ngClass]="{ 'is-invalid': submitted && profesorForm.controls.telefono.errors }">
+            <label class="custom-label" for="telefono">Numero Telefono</label>
+            <div *ngIf="submitted && profesorForm.controls.telefono.errors" class="invalid-feedback">
+                <div *ngIf="profesorForm.controls.telefono.errors.required">El Numero de Telefono es requerido</div>
+                <div *ngIf="profesorForm.controls.telefono.errors.minlength">El Numero de Telefono no puede ser menos de 6 digitos</div>
+            </div>
+        </div>
+
+        <div class="form-floating col-md-4">
+            <input id="fechaNac" formControlName="fechaNac" type="date" [max]="maxDate" class="form-control" placeholder="Fecha Nacimiento"
+                    [ngClass]="{ 'is-invalid': submitted && profesorForm.controls.fechaNac.errors }">
+            <label class="custom-label" for="fechaNac">Fecha Nacimiento</label>
+            <div *ngIf="submitted && profesorForm.controls.fechaNac.errors" class="invalid-feedback">
+                <div *ngIf="profesorForm.controls.fechaNac.errors.required">La Fecha Nacimiento es requerida</div>
+            </div>
+        </div>
+
+        <div class="form-floating col-md-12">
+            <input id="email" formControlName="email" type="email" class="form-control" placeholder="Email addres"
+                    [ngClass]="{ 'is-invalid': submitted && profesorForm.controls.email.errors }">
+            <label class="custom-label" for="email">Email addres</label>
+            <div *ngIf="submitted && profesorForm.controls.email.errors" class="invalid-feedback">
+                <div *ngIf="profesorForm.controls.email.errors.required">El email es requerido</div>
+                <div *ngIf="profesorForm.controls.email.errors.email">No es un email valido</div>
+            </div>
+        </div>
+        <div class="form-floating col-md-12">
+            <textarea id="direccion" formControlName="direccion" class="form-control" rows="2" placeholder="Direccion"
+                    [ngClass]="{ 'is-invalid': submitted && profesorForm.controls.direccion.errors }"></textarea>
+            <label class="custom-label" for="direccion">Direccion</label>
+            <div *ngIf="submitted && profesorForm.controls.direccion.errors" class="invalid-feedback">
+                <div *ngIf="profesorForm.controls.direccion.errors.required">La Direccion es requerido</div>
+            </div>
+        </div>
+
+        <div class="form-floating col-md-6">
+            <button type="submit" class="btn btn-outline-success" style="margin-right: 16px;">{{title}}</button> 
+            <button (click)="close()" class="btn btn-outline-danger">Cancel</button>
+        </div>
+
+    </form>
+</div>
