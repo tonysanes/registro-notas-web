@@ -32,13 +32,13 @@ export class PersonaService {
 
   public loadAlumnos(filters: string, sorts: string, page: number, size: number) : Observable<any>{
     if(filters != '' && sorts != '') {
-      return this.http.get<any>(URL_ALUMNO + SEPARATOR + filters + SEPARATOR + sorts + SEPARATOR + page + SEPARATOR + size, { headers: this.headersEncoded });
+      return this.http.get<any>(URL_ALUMNO + '?filters=' + filters + '&sort=' + sorts + '&page=' + page + '&size=' + size, { headers: this.headersEncoded });
     } else if(filters != '' && sorts == '') {
-      return this.http.get<any>(URL_ALUMNO + SEPARATOR + filters + SEPARATOR + page + SEPARATOR + size, { headers: this.headersEncoded });
+      return this.http.get<any>(URL_ALUMNO + '?filters=' + filters + '&page=' + page + '&size=' + size, { headers: this.headersEncoded });
     } else if(filters == '' && sorts != '') {
-      return this.http.get<any>(URL_ALUMNO + SEPARATOR + sorts + SEPARATOR + page + SEPARATOR + size, { headers: this.headersEncoded });
+      return this.http.get<any>(URL_ALUMNO + '?sort=' + sorts + '&page=' + page + '&size=' + size, { headers: this.headersEncoded });
     } else {
-      return this.http.get<any>(URL_ALUMNO + SEPARATOR + page + SEPARATOR + size, { headers: this.headersEncoded });
+      return this.http.get<any>(URL_ALUMNO + '?page=' + page + '&size=' + size, { headers: this.headersEncoded });
     }
   }
 
@@ -61,13 +61,13 @@ export class PersonaService {
   //service profesores
   public loadProfesores(filters: string, sorts: string, page: number, size: number) : Observable<any>{
     if(filters != '' && sorts != '') {
-      return this.http.get<any>(URL_PROFESOR + SEPARATOR + filters + SEPARATOR + sorts + SEPARATOR + page + SEPARATOR + size, { headers: this.headersEncoded });
+      return this.http.get<any>(URL_PROFESOR + '?filters=' + filters + '&sort=' + sorts + '&page=' + page + '&size=' + size, { headers: this.headersEncoded });
     } else if(filters != '' && sorts == '') {
-      return this.http.get<any>(URL_PROFESOR + SEPARATOR + filters + SEPARATOR + page + SEPARATOR + size, { headers: this.headersEncoded });
+      return this.http.get<any>(URL_PROFESOR + '?filters=' + filters + '&page=' + page + '&size=' + size, { headers: this.headersEncoded });
     } else if(filters == '' && sorts != '') {
-      return this.http.get<any>(URL_PROFESOR + SEPARATOR + sorts + SEPARATOR + page + SEPARATOR + size, { headers: this.headersEncoded });
+      return this.http.get<any>(URL_PROFESOR + '?sort=' + sorts + '&page=' + page + '&size=' + size, { headers: this.headersEncoded });
     } else {
-      return this.http.get<any>(URL_PROFESOR + SEPARATOR + page + SEPARATOR + size, { headers: this.headersEncoded });
+      return this.http.get<any>(URL_PROFESOR + '?page=' + page + '&size=' + size, { headers: this.headersEncoded });
     }
   }
 
