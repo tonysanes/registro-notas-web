@@ -1,0 +1,91 @@
+<ng-sidebar-container style="position:initial;">
+ 
+    <!-- A sidebar -->
+    <ng-sidebar [(opened)]="opened" position="right" mode="over" [showBackdrop]="true">
+        <div *ngIf="opened" style="background-color: white; height: 100vh; width: 400px; padding: 20px;">
+            
+            <form [formGroup]="filterForm" (ngSubmit)="submitFilter()" class="row g-3">
+                <div class="form-floating col-md-6">
+                    <h4>Filtros</h4>
+                </div>
+                <div class="form-floating col-md-6">
+                    <span><i (click)="closeFilter()" class="bi bi-x-lg float-end"></i></span>
+                </div>
+
+                <div class="form-floating col-md-12">
+                    <input id="nombres" formControlName="nombres" type="text" class="form-control" placeholder="Nombres">
+                    <label class="custom-label" for="nombres">Nombres</label>
+                </div>
+                <div class="form-floating col-md-12">
+                    <input id="apellidos" formControlName="apellidos" type="text" class="form-control" placeholder="Apellidos">
+                    <label class="custom-label" for="apellidos">Apellidos</label>
+                </div>
+                <div *ngIf="isProfesorFilter" class="form-floating col-md-12">
+                    <input id="dni" formControlName="dni" type="text" class="form-control" placeholder="DNI">
+                    <label class="custom-label" for="dni">Apellidos</label>
+                </div>
+                <div class="form-floating col-md-12">
+                    <input id="email" formControlName="email" type="email" class="form-control" placeholder="Email addres">
+                    <label class="custom-label" for="email">Email addres</label>
+                </div>
+
+                <div *ngIf="isAlumnoFilter" class="form-floating col-md-12">
+                    <select id="nivel" class="form-select" formControlName="nivel" (change)="onChangeNivel($event)">
+                        <option selected value="">Selecionar Nivel</option>
+                        <option *ngFor="let nivel of niveles" [value]="nivel.value">{{nivel.label}}</option>
+                    </select>
+                    <label class="custom-label" for="nivel">Nivel</label>
+                </div>
+                <div *ngIf="isAlumnoFilter" class="form-floating col-md-12">
+                    <select id="grado" class="form-select" formControlName="grado">
+                        <option selected value="">Selecionar Grado</option>
+                        <option *ngFor="let grado of grados" [value]="grado.value">{{grado.label}}</option>
+                    </select>
+                    <label class="custom-label" for="grado">Grado</label>
+                </div>
+                <div *ngIf="isAlumnoFilter" class="form-floating col-md-12">
+                    <select id="seccion" class="form-select" formControlName="seccion">
+                        <option selected value="">Selecionar Seccion</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                    </select>
+                    <label class="custom-label" for="seccion">Seccion</label>
+                </div>
+
+                <div class="form-floating col-md-12">
+                    <select id="genero" class="form-select" formControlName="genero">
+                        <option selected value="">Selecionar Genero</option>
+                        <option *ngFor="let genero of generos" [value]="genero.value">{{genero.label}}</option>
+                    </select>
+                    <label class="custom-label" for="seccion">Genero</label>
+                </div>
+
+                <div class="form-floating col-md-12">
+                    <textarea id="direccion" formControlName="direccion" class="form-control" rows="2" placeholder="Direccion"></textarea>
+                    <label class="custom-label" for="direccion">Direccion</label>
+                </div>
+        
+                <div class="form-floating col-md-12">
+                    <input id="telefono" formControlName="telefono" type="text" class="form-control" placeholder="Numero Telefono">
+                    <label class="custom-label" for="telefono">Numero Telefono</label>
+                </div>
+                <div class="form-floating col-md-12">
+                    <input id="fechaNacimiento" formControlName="fechaNacimiento" type="date" class="form-control" placeholder="Fecha Nacimiento">
+                    <label class="custom-label" for="fechaNacimiento">Fecha Nacimiento</label>
+                </div>
+
+                <div class="form-floating col-md-12">
+                    <button type="submit" class="btn btn-outline-success" style="margin-right: 16px;">Filtrar</button> 
+                    <button (click)="closeFilter()" class="btn btn-outline-danger">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </ng-sidebar>
+
+    <!-- Page content -->
+    <!-- <div ng-sidebar-content>
+      <button (click)="toggleSidebar()">Toggle sidebar</button>
+    </div> -->
+
+</ng-sidebar-container>
